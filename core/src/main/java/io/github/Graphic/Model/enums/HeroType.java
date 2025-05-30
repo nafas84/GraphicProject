@@ -1,4 +1,4 @@
-package io.github.Graphic.Model;
+package io.github.Graphic.Model.enums;
 
 public enum HeroType {
     Shana("Shana", "assets/hero/Shana", 4, 4, 100),

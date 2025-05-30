@@ -1,9 +1,9 @@
 package io.github.Graphic.Controller;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.files.FileHandle;
 import com.google.gson.Gson;
 import io.github.Graphic.Model.*;
+import io.github.Graphic.Model.enums.HeroType;
+import io.github.Graphic.Model.enums.WeaponType;
 import io.github.Graphic.TillDown;
 import io.github.Graphic.View.GameView;
 
@@ -74,8 +74,15 @@ public class MainMenuController {
     }
 
     public static void deleteAccount() {
-        FileHandle file = Gdx.files.local("data/users/" + App.getCurrentUser().getUsername() + ".json");
-        if (file.exists()) file.delete();
+        File baseDir = new File("data/users");
+        File[] userDirs = baseDir.listFiles(File::isDirectory);
+
+        if (userDirs == null) return;
+
+        for (File dir : userDirs) {
+            File file = new File(dir, App.getCurrentUser().getUsername() + ".json");
+                if (file.exists()) file.delete();
+        }
         App.setCurrentUser(null);
     }
 

@@ -1,4 +1,4 @@
-package io.github.Graphic.Model;
+package io.github.Graphic.Model.enums;
 
 public enum AssetType {
     IdleHero,

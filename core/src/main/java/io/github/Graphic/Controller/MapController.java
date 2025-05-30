@@ -1,7 +1,7 @@
 package io.github.Graphic.Controller;
 
 import io.github.Graphic.Model.App;
-import io.github.Graphic.Model.AssetType;
+import io.github.Graphic.Model.enums.AssetType;
 import io.github.Graphic.Model.GameAssetManager;
 import io.github.Graphic.TillDown;
 

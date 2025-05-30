@@ -14,8 +14,8 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import io.github.Graphic.Controller.MainMenuController;
 import io.github.Graphic.Model.App;
-import io.github.Graphic.Model.HeroType;
-import io.github.Graphic.Model.WeaponType;
+import io.github.Graphic.Model.enums.HeroType;
+import io.github.Graphic.Model.enums.WeaponType;
 import io.github.Graphic.TillDown;
 
 public class PreGameMenu implements Screen {
