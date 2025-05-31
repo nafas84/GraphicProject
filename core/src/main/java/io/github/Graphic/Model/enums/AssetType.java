@@ -7,5 +7,6 @@ public enum AssetType {
     MonsterBullet, // fixed
     Weapon, // fixed (assetPath)
     BackGround, // fixed (assetEtcPath)
+    Seed,
 
 }

@@ -19,4 +19,8 @@ public enum Ability {
         this.description = description;
         this.time = time;
     }
+
+    public Ability getRandom() {
+
+    }
 }

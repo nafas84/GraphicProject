@@ -87,6 +87,9 @@ public class GameAssetManager {
             case BackGround:
                 result = "assets/etc/background.png";
                 break;
+            case Seed:
+                result = "assets/etc/BahmanHashemi.png";
+                break;
             default:
                 throw new IllegalArgumentException("Invalid assetType for getTexture/sprite(GameAssetManager)!");
         }

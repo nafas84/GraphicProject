@@ -6,8 +6,12 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.math.MathUtils;
 import io.github.Graphic.Model.*;
 import io.github.Graphic.TillDown;
+import io.github.Graphic.View.EndGameMenu;
 import io.github.Graphic.View.GameView;
 import io.github.Graphic.View.Start.StartMenu;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class PlayerController {
     private GameView view;
@@ -44,9 +48,9 @@ public class PlayerController {
         }
 
         // update life:
-        if (player.getLife() <= 0) {
-            TillDown.getGame().setScreen(new StartMenu());
-        }
+        if (player.getLife() <= 0)
+            TillDown.getGame().setScreen(new EndGameMenu(-1));
+
     }
 
     private void handlePlayerInput(){
@@ -138,6 +142,16 @@ public class PlayerController {
                 player.setInvincibleTimeRemaining(1f);
             }
         }
+        // handle collision player with seeds(bahman hashemi):
+        List<Seed> toRemovedSeeds = new ArrayList<>();
+        for (Seed seed: App.getGame().getSeeds()) {
+            if (player.getHero().getRect().collidesWith(seed.getRect())) {
+                toRemovedSeeds.add(seed);
+                player.updateXp(5);
+            }
+        }
+
+        App.getGame().getSeeds().removeAll(toRemovedSeeds);
     }
 
     //Cheat inputs:

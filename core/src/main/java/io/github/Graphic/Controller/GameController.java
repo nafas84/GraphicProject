@@ -31,6 +31,7 @@ public class GameController {
     }
 
     public void updateGame() {
+        handleTime();
         // draw sprite, animation,...
         MapController.update();
         playerController.update();
@@ -40,17 +41,29 @@ public class GameController {
         updateGameMessages();
     }
 
+    private void handleTime() {
+        if (App.getGame().getTimeRemaining() <= 0) {
+            if (App.getGame().getPlayer().getLife() <= 0) {
+                TillDown.getGame().setScreen(new EndGameMenu(-1));
+            } else {
+                TillDown.getGame().setScreen(new EndGameMenu(1));
+            }
+        }
+    }
+
     public void updateGameBar() {
+        //TODO: language
         Table table = view.getTable();
         table.clearChildren();
 
         Skin skin = TillDown.getSkin();
+        int neededXp = App.getGame().getPlayer().getXpNeedLevelUp() - App.getGame().getPlayer().getXp();
 
         Label life = new Label("    life: " + App.getGame().getPlayer().getLife() + "    ", skin);
         Label kill = new Label("kill: " + App.getGame().getPlayer().getKills() + "    ", skin);
         Label ammo = new Label("ammo: " + App.getGame().getPlayer().getWeapon().getAmmo() + "    ", skin);
         Label level = new Label("level: " + App.getGame().getPlayer().getLevel() + "    ", skin);
-        Label xp = new Label("XP: " + App.getGame().getPlayer().getXp() + "    ", skin);
+        Label xp = new Label("Need XP to level Up: " + neededXp + "    ", skin);
         Label hp = new Label("HP: " + App.getGame().getPlayer().getHp() + "    ", skin);
         Label raminTime = new Label("RemainTime : " + formatTime(App.getGame().getTimeRemaining()) + "    ", skin);
         Label position = new Label("Position : " + App.getGame().getPlayer().getX() + ", " + App.getGame().getPlayer().getY()  + "    ", skin);

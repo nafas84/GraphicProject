@@ -107,10 +107,14 @@ public class WeaponController {
 
             // update collision with monsters:
             for (Monster monster : App.getGame().getMonsters()) {
-                if (!monster.getType().equals(MonsterType.Tree) && bullet.getRect().collidesWith(monster.getRect())) {
+                //TODO !monster.getType().equals(MonsterType.Tree) &&
+                if (bullet.getRect().collidesWith(monster.getRect())) {
                     monster.updateHp(-App.getGame().getPlayer().getWeapon().getType().getDamage());
-                    if (monster.getHp() <= 0)
+                    if (monster.getHp() <= 0) {
+                        player.updateKills(1);
                         toRemovedMonsters.add(monster);
+                        App.getGame().getSeeds().add(new Seed(monster.getSprite().getX(), monster.getSprite().getY()));
+                    }
                     toRemoveBullets.add(bullet);
                     break;
                 }

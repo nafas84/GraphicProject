@@ -2,6 +2,9 @@ package io.github.Graphic.Model;
 
 import com.badlogic.gdx.Gdx;
 
+import java.io.File;
+import java.io.FileReader;
+
 public class Player {
     private final int id;
 
@@ -34,9 +37,6 @@ public class Player {
     // Update methods:
     public void updateLife(int life) {
         this.life += life;
-        if (this.life <= 0) {
-            //TODO: gameOver
-        }
     }
 
     public void updateKills(int kills) {
@@ -45,6 +45,7 @@ public class Player {
 
     public void updateLevel() {
         this.level += 1;
+        //TODO: set random ability
     }
 
     public void updateHp(int hp) {
@@ -53,6 +54,18 @@ public class Player {
             this.hp = this.getMaxHP();
             updateLife(-1);
         }
+    }
+
+    public void updateXp(int xp) {
+        this.xp += xp;
+        if (this.xp >= getXpNeedLevelUp()) {
+            this.xp = 0;
+            updateLevel();
+        }
+    }
+
+    public int getXpNeedLevelUp() {
+        return this.level * 20;
     }
     // getter for  types:(for ability)
     public int getMaxHP() {
@@ -153,5 +166,20 @@ public class Player {
 
     public float getInvincibleTimeRemaining() {
         return invincibleTimeRemaining;
+    }
+
+    public String getUsername() {
+        try {
+            File folder = new File("data/users/" + id);
+            File[] files = folder.listFiles((dir, name) -> name.endsWith(".json"));
+
+            if (files == null || files.length == 0) return null;
+
+            String filename = files[0].getName();
+            return filename.substring(0, filename.lastIndexOf('.'));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

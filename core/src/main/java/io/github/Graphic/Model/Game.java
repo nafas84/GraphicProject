@@ -9,7 +9,7 @@ public class Game {
 
     private final Player player;
     private final List<Monster> monsters = new ArrayList<>();
-
+    private final List<Seed> seeds = new ArrayList<>();
 
     public Game(Player player, int time) {
         this.totalTime = time * 60;
@@ -48,5 +48,19 @@ public class Game {
 
     public float getTotalTime() {
         return totalTime;
+    }
+
+    public List<Seed> getSeeds() {
+        return seeds;
+    }
+
+    public String gameInfo() {
+        //TODO: language
+        int score = (int) (getPassedTime() * player.getKills());
+        return "--- BATTLE REPORT ---\n" +
+            "\n" + "Player         : " + player.getUsername() + "\n" +
+            "Time Survived  : " + getPassedTime() + " seconds\n" +
+            "Enemies Slain  : " + player.getKills() + "\n" +
+            "Score  : " + score + "\n";
     }
 }

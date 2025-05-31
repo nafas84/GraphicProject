@@ -200,6 +200,7 @@ public class MonsterController {
             // update collision with player:
             if (b.getRect().collidesWith(player.getHero().getRect())) {
                 player.updateHp(-b.getMonsterDamage());
+                GameController.setWarning(App.getLanguage("game.damage"));
                 toRemoveBullets.add(b);
                 break;
             }
