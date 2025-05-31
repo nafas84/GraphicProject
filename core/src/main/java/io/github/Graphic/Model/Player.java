@@ -1,13 +1,15 @@
 package io.github.Graphic.Model;
 
+import com.badlogic.gdx.Gdx;
+
 public class Player {
     private final int id;
 
     private final Hero hero;
     private final Weapon weapon;
 
-    private float posX = 0;
-    private float posY = 0;
+    private float posX = (float) Gdx.graphics.getWidth() / 2;
+    private float posY =  (float) Gdx.graphics.getWidth() / 2;
     private CollisionRect rect ;
     private float time = 0;
 

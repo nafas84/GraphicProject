@@ -9,8 +9,6 @@ public class MapController {
     private final GameAssetManager gameAssetManager = GameAssetManager.getGameAssetManager();
 
     public void update() {
-        float backgroundX = App.getGame().getPlayer().getPosX();
-        float backgroundY = App.getGame().getPlayer().getPosY();
-        TillDown.getBatch().draw(gameAssetManager.getTexture(AssetType.BackGround), backgroundX, backgroundY);
+        TillDown.getBatch().draw(gameAssetManager.getTexture(AssetType.BackGround), 0, 0);
     }
 }

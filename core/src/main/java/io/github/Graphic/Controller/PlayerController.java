@@ -5,16 +5,16 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.MathUtils;
 import io.github.Graphic.Model.*;
 import io.github.Graphic.TillDown;
 
 public class PlayerController {
     private final WeaponController weaponController = new WeaponController();
 
-    private Player player = App.getGame().getPlayer();
+    private final Player player = App.getGame().getPlayer();
 
     public void update(){
-
         player.getHero().getSprite().draw(TillDown.getBatch());
 
         handleAnimation();
@@ -28,24 +28,27 @@ public class PlayerController {
 
     public void handlePlayerInput(){
         boolean isMoving = false;
+        float newX = player.getPosX();
+        float newY = player.getPosY();
+
         // Player move:
         if (Gdx.input.isKeyPressed(App.getKeyManager().getMoveUp())){
-            player.setPosY(player.getPosY() - player.getSpeed());
+            newY += player.getSpeed();
             isMoving = true;
         }
 
         if (Gdx.input.isKeyPressed(App.getKeyManager().getMoveDown())){
-            player.setPosY(player.getPosY() + player.getSpeed());
+            newY -= player.getSpeed();
             isMoving = true;
         }
 
         if (Gdx.input.isKeyPressed(App.getKeyManager().getMoveRight())){
-            player.setPosX(player.getPosX() - player.getSpeed());
+            newX += player.getSpeed();
             isMoving = true;
         }
 
         if (Gdx.input.isKeyPressed(App.getKeyManager().getMoveLeft())){
-            player.setPosX(player.getPosX() + player.getSpeed());
+            newX -= player.getSpeed();
             player.getHero().getSprite().flip(true, false);
             isMoving = true;
         }
@@ -70,8 +73,21 @@ public class PlayerController {
         if (Gdx.input.isKeyPressed(App.getKeyManager().getCheatHp())){
             weaponController.handleManualReload();
         }
-        // pause game:
 
+        // clamp player inside map boundaries
+        int playerWidth = (int) player.getHero().getSprite().getWidth();
+        int playerHeight = (int) player.getHero().getSprite().getHeight();
+        float mapWidth = 2688;
+        float mapHeight = 2688;
+        newX = MathUtils.clamp(newX, 0, mapWidth - playerWidth);
+        newY = MathUtils.clamp(newY, playerHeight, mapHeight - playerHeight);
+
+        // set position
+        player.setPosX(newX);
+        player.setPosY(newY);
+        player.getHero().getSprite().setPosition(newX, newY);
+
+        // status
         player.setIdle(!isMoving);
     }
 
