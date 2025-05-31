@@ -1,8 +1,9 @@
 package io.github.Graphic.Model;
 
 public class CollisionRect {
-    float x, y;
-    float width, height;
+    private float x, y;
+    private final float width, height;
+
     public CollisionRect(float x, float y, float width, float height){
         this.x = x;
         this.y = y;

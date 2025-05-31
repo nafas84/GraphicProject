@@ -8,10 +8,12 @@ import com.badlogic.gdx.math.Vector2;
 import io.github.Graphic.Model.App;
 import io.github.Graphic.Model.Bullet;
 import io.github.Graphic.Model.Monster;
+import io.github.Graphic.Model.Player;
 import io.github.Graphic.Model.enums.MonsterType;
 import io.github.Graphic.TillDown;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MonsterController {
     private ArrayList<Bullet> monsterBullets = new ArrayList<>();
@@ -186,12 +188,24 @@ public class MonsterController {
     }
 
     private void updateBullets() {
+        Player player = App.getGame().getPlayer();
+        List<Bullet> toRemoveBullets = new ArrayList<>();
+
         for (Bullet b : monsterBullets) {
             b.getSprite().draw(TillDown.getBatch());
 
             Vector2 dir = b.getDirection();
             b.updatePosition(dir.x * 5, dir.y * 5);
+
+            // update collision with player:
+            if (b.getRect().collidesWith(player.getHero().getRect())) {
+                player.updateHp(-b.getMonsterDamage());
+                toRemoveBullets.add(b);
+                break;
+            }
         }
+
+        monsterBullets.removeAll(toRemoveBullets);
     }
 
     private void moveMonster(Monster monster, int speedShash) {
@@ -221,5 +235,6 @@ public class MonsterController {
         monster.setX(newX);
         monster.setY(newY);
         monster.getSprite().setPosition(newX, newY);
+        monster.getRect().move(newX, newY);
     }
 }

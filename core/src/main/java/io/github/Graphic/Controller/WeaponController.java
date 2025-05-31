@@ -6,10 +6,12 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import io.github.Graphic.Model.*;
+import io.github.Graphic.Model.enums.MonsterType;
 import io.github.Graphic.TillDown;
 import io.github.Graphic.View.GameView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class WeaponController {
     private GameView view;
@@ -93,11 +95,31 @@ public class WeaponController {
     }
 
     public void updateBullets() {
-        for (Bullet b : bullets) {
-            b.getSprite().draw(TillDown.getBatch());
+        List<Bullet> toRemoveBullets = new ArrayList<>();
+        List<Monster> toRemovedMonsters = new ArrayList<>();
 
-            Vector2 dir = b.getDirection();
-            b.updatePosition(dir.x * 5, dir.y * 5);
+        for (Bullet bullet : bullets) {
+            // update positions:
+            bullet.getSprite().draw(TillDown.getBatch());
+
+            Vector2 dir = bullet.getDirection();
+            bullet.updatePosition(dir.x * 5, dir.y * 5);
+
+            // update collision with monsters:
+            for (Monster monster : App.getGame().getMonsters()) {
+                if (!monster.getType().equals(MonsterType.Tree) && bullet.getRect().collidesWith(monster.getRect())) {
+                    monster.updateHp(-App.getGame().getPlayer().getWeapon().getType().getDamage());
+                    if (monster.getHp() <= 0)
+                        toRemovedMonsters.add(monster);
+                    toRemoveBullets.add(bullet);
+                    break;
+                }
+            }
         }
+
+        bullets.removeAll(toRemoveBullets);
+        App.getGame().getMonsters().removeAll(toRemovedMonsters);
     }
+
+
 }

@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.MathUtils;
 import io.github.Graphic.Model.*;
 import io.github.Graphic.TillDown;
 import io.github.Graphic.View.GameView;
+import io.github.Graphic.View.Start.StartMenu;
 
 public class PlayerController {
     private GameView view;
@@ -19,16 +20,33 @@ public class PlayerController {
         weaponController.setView(view);
     }
 
+    public WeaponController getWeaponController() {
+        return weaponController;
+    }
+
     public void update(){
         player.getHero().getSprite().draw(TillDown.getBatch());
 
         handleAnimation();
         handlePlayerInput();
+        handleCollision();
+        handlePlayerStatus();
         weaponController.update();
     }
 
-    public WeaponController getWeaponController() {
-        return weaponController;
+    private void handlePlayerStatus() {
+        // handle invincible:
+        if (player.isInvincible()) {
+            player.updateInvincibleTimeRemaining(-Gdx.graphics.getDeltaTime());
+            if (player.getInvincibleTimeRemaining() <= 0) {
+                player.setInvincible(false);
+            }
+        }
+
+        // update life:
+        if (player.getLife() <= 0) {
+            TillDown.getGame().setScreen(new StartMenu());
+        }
     }
 
     private void handlePlayerInput(){
@@ -91,6 +109,7 @@ public class PlayerController {
         player.setX(newX);
         player.setY(newY);
         player.getHero().getSprite().setPosition(newX, newY);
+        player.getHero().getRect().move(newX, newY);
 
         // status
         player.setIdle(!isMoving);
@@ -110,19 +129,32 @@ public class PlayerController {
         animation.setPlayMode(Animation.PlayMode.LOOP);
     }
 
+    private void handleCollision() {
+        // handle collision player with monsters: -10HP
+        for (Monster monster: App.getGame().getMonsters()) {
+            if (player.getHero().getRect().collidesWith(monster.getRect()) && !player.isInvincible()) {
+                player.updateHp(-10);
+                player.setInvincible(true);
+                player.setInvincibleTimeRemaining(1f);
+            }
+        }
+    }
+
     //Cheat inputs:
     private void cheatTime() {
         App.getGame().setTime(Math.min(App.getGame().getTimeRemaining() - 60, 0));
     }
+
     private void cheatLevel() {
         //TODO: logic
         App.getGame().getPlayer().updateLevel();
     }
+
     private void cheatLife() {
         App.getGame().getPlayer().setLife(App.getGame().getPlayer().getHero().getType().getBaseLife());
     }
+
     private void cheatHp() {
         App.getGame().getPlayer().setHp(App.getGame().getPlayer().getMaxHP());
     }
-
 }

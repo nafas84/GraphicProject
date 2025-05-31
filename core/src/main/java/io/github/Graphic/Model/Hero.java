@@ -16,6 +16,8 @@ public class Hero {
     private final HeroType type;
     private boolean isIdle = true;
 
+    private CollisionRect rect;
+
     public Hero(HeroType type) {
         this.type = type;
     }
@@ -37,6 +39,15 @@ public class Hero {
         Texture textureRun = GameAssetManager.getGameAssetManager().getTexture(AssetType.RunHero);
         runSprite.setPosition((float) Gdx.graphics.getWidth() / 2, (float) Gdx.graphics.getHeight() / 2);
         runSprite.setSize(textureRun.getWidth() * 3, textureRun.getHeight() * 3);
+
+
+        // initialize rect:
+        rect = new CollisionRect(
+            idleSprite.getX(),
+            idleSprite.getY(),
+            idleSprite.getWidth(),
+            idleSprite.getHeight()
+        );
     }
 
     public Sprite getSprite() {
@@ -49,6 +60,10 @@ public class Hero {
             return idleAnimation;
         else
             return runAnimation;
+    }
+
+    public CollisionRect getRect() {
+        return rect;
     }
 
     public int getMaxHP() {

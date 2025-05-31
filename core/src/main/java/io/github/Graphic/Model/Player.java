@@ -11,10 +11,11 @@ public class Player {
     private float x = (float) Gdx.graphics.getWidth() / 2;
     private float y =  (float) Gdx.graphics.getWidth() / 2;
 
-    private CollisionRect rect ;
     private float time = 0;
 
     private boolean isInvincible = false;
+    private float invincibleTimeRemaining = 0f;
+
     private int xp = 0;
     private int hp = 100;
     private int life;
@@ -33,6 +34,9 @@ public class Player {
     // Update methods:
     public void updateLife(int life) {
         this.life += life;
+        if (this.life <= 0) {
+            //TODO: gameOver
+        }
     }
 
     public void updateKills(int kills) {
@@ -41,6 +45,14 @@ public class Player {
 
     public void updateLevel() {
         this.level += 1;
+    }
+
+    public void updateHp(int hp) {
+        this.hp += hp;
+        if (this.hp <= 0) {
+            this.hp = this.getMaxHP();
+            updateLife(-1);
+        }
     }
     // getter for  types:(for ability)
     public int getMaxHP() {
@@ -107,14 +119,6 @@ public class Player {
         this.y = y;
     }
 
-    public CollisionRect getRect() {
-        return rect;
-    }
-
-    public void setRect(CollisionRect rect) {
-        this.rect = rect;
-    }
-
     public float getTime() {
         return time;
     }
@@ -137,5 +141,17 @@ public class Player {
 
     public Weapon getWeapon() {
         return weapon;
+    }
+
+    public void setInvincibleTimeRemaining(float invincibleTimeRemaining) {
+        this.invincibleTimeRemaining = invincibleTimeRemaining;
+    }
+
+    public void updateInvincibleTimeRemaining(float invincibleTimeRemaining) {
+        this.invincibleTimeRemaining += invincibleTimeRemaining;
+    }
+
+    public float getInvincibleTimeRemaining() {
+        return invincibleTimeRemaining;
     }
 }

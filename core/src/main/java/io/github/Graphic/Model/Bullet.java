@@ -7,11 +7,13 @@ import io.github.Graphic.Model.enums.AssetType;
 public class Bullet {
     private Sprite sprite;
     private boolean isMonsterBullet = false;
-    private int damage = 5;
+    private int monsterDamage = 5;
     private Vector2 direction;
 
     private float x;
     private float y;
+
+    private CollisionRect rect;
 
     public Bullet(float targetX, float targetY) {
         Player player = App.getGame().getPlayer();
@@ -53,6 +55,18 @@ public class Bullet {
         sprite.setOriginCenter();
         sprite.setPosition(x - sprite.getWidth() / 2f, y - sprite.getHeight() / 2f);
         sprite.setSize(40, 40);
+
+        // initialize rect:
+        rect = new CollisionRect(
+            sprite.getX(),
+            sprite.getY(),
+            sprite.getWidth(),
+            sprite.getHeight()
+        );
+    }
+
+    public CollisionRect getRect() {
+        return rect;
     }
 
     public Sprite getSprite() {
@@ -67,6 +81,11 @@ public class Bullet {
         x += dx;
         y += dy;
         sprite.setPosition(x - sprite.getWidth() / 2f, y - sprite.getHeight() / 2f);
+        rect.move(x - sprite.getWidth() / 2f, y - sprite.getHeight() / 2f);
+    }
+
+    public int getMonsterDamage() {
+        return monsterDamage;
     }
 
     public float getX() { return x; }

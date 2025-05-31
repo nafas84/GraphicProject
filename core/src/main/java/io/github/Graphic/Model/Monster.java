@@ -15,7 +15,8 @@ public class Monster {
 
     private int hp;
 
-    private CollisionRect rect ;
+    private CollisionRect rect;
+
     private float time = 0;
 
     private final MonsterType type;
@@ -67,6 +68,22 @@ public class Monster {
             frames[i] = new Texture(Gdx.files.internal(path +  "/T_" + this.type.getName() + "_" + i +".png"));
         }
         animation = new Animation<>(this.type.getFrameDuration(), frames);
+
+        // initialize rect:
+        rect = new CollisionRect(
+            sprite.getX(),
+            sprite.getY(),
+            sprite.getWidth(),
+            sprite.getHeight()
+        );
+    }
+
+    public void updateHp(int hp) {
+        this.hp += hp;
+    }
+
+    public CollisionRect getRect() {
+        return rect;
     }
 
     public MonsterType getType() {
