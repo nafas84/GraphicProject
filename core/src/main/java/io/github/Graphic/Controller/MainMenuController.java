@@ -97,7 +97,7 @@ public class MainMenuController {
         Player player = new Player(heroPlayer, weaponPlayer, App.getCurrentUser().getId());
 
         App.setGame(new Game(player, time));
-        GameController.initializeSprites();
+        GameController.initializeGame();
 
         TillDown.getGame().setScreen(new GameView(new GameController()));
     }

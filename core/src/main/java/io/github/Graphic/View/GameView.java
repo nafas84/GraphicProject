@@ -82,18 +82,18 @@ public class GameView implements Screen, InputProcessor {
         float camHalfWidth = camera.viewportWidth / 2f;
         float camHalfHeight = camera.viewportHeight / 2f;
 
-        float playerX = App.getGame().getPlayer().getPosX();
-        float playerY = App.getGame().getPlayer().getPosY();
+        float playerX = App.getGame().getPlayer().getX();
+        float playerY = App.getGame().getPlayer().getY();
         float spriteWidth = App.getGame().getPlayer().getHero().getSprite().getWidth();
         float spriteHeight = App.getGame().getPlayer().getHero().getSprite().getHeight();
 
         float centerX = playerX + spriteWidth / 2f;
         float centerY = playerY + spriteHeight / 2f;
 
-        float cameraX = MathUtils.clamp(centerX, camHalfWidth, MapWidth - camHalfWidth);
-        float cameraY = MathUtils.clamp(centerY, camHalfHeight, MapHeight - camHalfHeight);
+        centerX = MathUtils.clamp(centerX, camHalfWidth, MapWidth - camHalfWidth);
+        centerY = MathUtils.clamp(centerY, camHalfHeight, MapHeight - camHalfHeight);
 
-        camera.position.set(cameraX, cameraY, 0);
+        camera.position.set(centerX, centerY, 0);
         camera.update();
 
         TillDown.getBatch().setProjectionMatrix(camera.combined);

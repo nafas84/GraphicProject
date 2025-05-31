@@ -36,8 +36,8 @@ public class WeaponController {
     private void updateWeapon() {
         Sprite weaponSprite = weapon.getSprite();
 
-        float centerX = player.getPosX() + player.getHero().getSprite().getWidth();
-        float centerY = player.getPosY() + player.getHero().getSprite().getHeight() / 2f;
+        float centerX = player.getX() + player.getHero().getSprite().getWidth();
+        float centerY = player.getY() + player.getHero().getSprite().getHeight() / 2f;
 
         weaponSprite.setOriginCenter();
 
@@ -53,8 +53,8 @@ public class WeaponController {
         Vector3 worldCoordinate = new Vector3(x, y, 0);
         view.getCamera().unproject(worldCoordinate);
 
-        float playerX = player.getPosX() + player.getHero().getSprite().getWidth() / 2f;
-        float playerY = player.getPosY() + player.getHero().getSprite().getHeight() / 2f;
+        float playerX = player.getX() + player.getHero().getSprite().getWidth() / 2f;
+        float playerY = player.getY() + player.getHero().getSprite().getHeight() / 2f;
 
         float angleRad = (float) Math.atan2(worldCoordinate.y - playerY, worldCoordinate.x - playerX);
         float angleDeg = angleRad * MathUtils.radiansToDegrees;

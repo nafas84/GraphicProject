@@ -8,8 +8,9 @@ public class Player {
     private final Hero hero;
     private final Weapon weapon;
 
-    private float posX = (float) Gdx.graphics.getWidth() / 2;
-    private float posY =  (float) Gdx.graphics.getWidth() / 2;
+    private float x = (float) Gdx.graphics.getWidth() / 2;
+    private float y =  (float) Gdx.graphics.getWidth() / 2;
+
     private CollisionRect rect ;
     private float time = 0;
 
@@ -90,20 +91,20 @@ public class Player {
         return this.hero.getSpeed();
     }
 
-    public float getPosX() {
-        return posX;
+    public float getX() {
+        return x;
     }
 
-    public void setPosX(float posX) {
-        this.posX = posX;
+    public void setX(float x) {
+        this.x = x;
     }
 
-    public float getPosY() {
-        return posY;
+    public float getY() {
+        return y;
     }
 
-    public void setPosY(float posY) {
-        this.posY = posY;
+    public void setY(float y) {
+        this.y = y;
     }
 
     public CollisionRect getRect() {

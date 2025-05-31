@@ -1,10 +1,8 @@
 package io.github.Graphic.Controller;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.MathUtils;
 import io.github.Graphic.Model.*;
 import io.github.Graphic.TillDown;
@@ -14,7 +12,6 @@ public class PlayerController {
     private GameView view;
 
     private final WeaponController weaponController = new WeaponController();
-
     private final Player player = App.getGame().getPlayer();
 
     public void setViews(GameView view) {
@@ -34,10 +31,10 @@ public class PlayerController {
         return weaponController;
     }
 
-    public void handlePlayerInput(){
+    private void handlePlayerInput(){
         boolean isMoving = false;
-        float newX = player.getPosX();
-        float newY = player.getPosY();
+        float newX = player.getX();
+        float newY = player.getY();
 
         // Player move:
         if (Gdx.input.isKeyPressed(App.getKeyManager().getMoveUp())){
@@ -91,16 +88,15 @@ public class PlayerController {
         newY = MathUtils.clamp(newY, playerHeight, mapHeight - playerHeight);
 
         // set position
-        player.setPosX(newX);
-        player.setPosY(newY);
+        player.setX(newX);
+        player.setY(newY);
         player.getHero().getSprite().setPosition(newX, newY);
 
         // status
         player.setIdle(!isMoving);
     }
 
-
-    public void handleAnimation(){
+    private void handleAnimation(){
         Animation<Texture> animation = App.getGame().getPlayer().getHero().getAnimation();
 
         player.getHero().getSprite().setRegion(animation.getKeyFrame(player.getTime()));

@@ -81,6 +81,9 @@ public class GameAssetManager {
             case Bullet:
                 result = "assets/weapon/bullet.png";
                 break;
+            case MonsterBullet:
+                result = "assets/monster/eyebatMonster/T_EyeBat_EM.png";
+                break;
             case BackGround:
                 result = "assets/etc/background.png";
                 break;
