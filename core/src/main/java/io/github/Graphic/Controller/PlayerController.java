@@ -8,11 +8,19 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.MathUtils;
 import io.github.Graphic.Model.*;
 import io.github.Graphic.TillDown;
+import io.github.Graphic.View.GameView;
 
 public class PlayerController {
+    private GameView view;
+
     private final WeaponController weaponController = new WeaponController();
 
     private final Player player = App.getGame().getPlayer();
+
+    public void setViews(GameView view) {
+        this.view = view;
+        weaponController.setView(view);
+    }
 
     public void update(){
         player.getHero().getSprite().draw(TillDown.getBatch());

@@ -18,8 +18,9 @@ public class GameController {
     private final PlayerController playerController = new PlayerController();
     private final MapController MapController = new MapController();
 
-    public void setView(GameView view) {
+    public void setViews(GameView view) {
         this.view = view;
+        playerController.setViews(view);
     }
 
     public static void setWarning(String warning) {
@@ -92,9 +93,6 @@ public class GameController {
         Player player = App.getGame().getPlayer();
         // player:
         player.getHero().initializeSprite();
-
-        // bullet:
-
         // weapon:
         player.getWeapon().initializeSprite();
         //rect = new CollisionRect((float) Gdx.graphics.getWidth() / 2, (float) Gdx.graphics.getHeight(), playerTexture.getWidth() * 3, playerTexture.getHeight() * 3);

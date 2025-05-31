@@ -27,7 +27,11 @@ public class GameView implements Screen, InputProcessor {
 
     public GameView(GameController controller) {
         this.controller = controller;
-        controller.setView(this);
+        controller.setViews(this);
+    }
+
+    public OrthographicCamera getCamera() {
+        return camera;
     }
 
     public Table getTable() {
