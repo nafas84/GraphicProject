@@ -5,13 +5,16 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.math.MathUtils;
 import io.github.Graphic.Model.*;
+import io.github.Graphic.Model.enums.Ability;
 import io.github.Graphic.TillDown;
 import io.github.Graphic.View.EndGameMenu;
 import io.github.Graphic.View.GameView;
 import io.github.Graphic.View.Start.StartMenu;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 public class PlayerController {
     private GameView view;
@@ -35,8 +38,31 @@ public class PlayerController {
         handlePlayerInput();
         handleCollision();
         handlePlayerStatus();
+        handlePlayerAbilities();
         weaponController.update();
     }
+
+    private void handlePlayerAbilities() {
+        float deltaTime = Gdx.graphics.getDeltaTime();
+
+        Iterator<Map.Entry<Ability, Float>> iterator = player.getAbilities().entrySet().iterator();
+
+        while (iterator.hasNext()) {
+            Map.Entry<Ability, Float> entry = iterator.next();
+            float time = entry.getValue();
+
+            if (time == -1) continue;
+
+            time -= deltaTime;
+
+            if (time <= 0) {
+                iterator.remove();
+            } else {
+                entry.setValue(time);
+            }
+        }
+    }
+
 
     private void handlePlayerStatus() {
         // handle invincible:
@@ -88,17 +114,20 @@ public class PlayerController {
             weaponController.handleManualReload();
         }
         // cheats:
-        if (Gdx.input.isKeyPressed(App.getKeyManager().getCheatTime())){
-            weaponController.handleManualReload();
+        if (Gdx.input.isKeyJustPressed(App.getKeyManager().getCheatTime())){
+            cheatTime();
         }
-        if (Gdx.input.isKeyPressed(App.getKeyManager().getCheatLevel())){
-            weaponController.handleManualReload();
+        if (Gdx.input.isKeyJustPressed(App.getKeyManager().getCheatLevel())){
+            cheatLevel();
         }
-        if (Gdx.input.isKeyPressed(App.getKeyManager().getCheatLife())){
-            weaponController.handleManualReload();
+        if (Gdx.input.isKeyJustPressed(App.getKeyManager().getCheatLife())){
+            cheatLife();
         }
-        if (Gdx.input.isKeyPressed(App.getKeyManager().getCheatHp())){
-            weaponController.handleManualReload();
+        if (Gdx.input.isKeyJustPressed(App.getKeyManager().getCheatHp())){
+            cheatHp();
+        }
+        if (Gdx.input.isKeyJustPressed(App.getKeyManager().getCheatBossFight())){
+            cheatBossFight();
         }
 
         // clamp player inside map boundaries
@@ -156,11 +185,12 @@ public class PlayerController {
 
     //Cheat inputs:
     private void cheatTime() {
-        App.getGame().setTime(Math.min(App.getGame().getTimeRemaining() - 60, 0));
+        float time = App.getGame().getTimeRemaining() - 60;
+        if (time < 0) time = 0;
+        App.getGame().setTime(time);
     }
 
     private void cheatLevel() {
-        //TODO: logic
         App.getGame().getPlayer().updateLevel();
     }
 
@@ -170,5 +200,9 @@ public class PlayerController {
 
     private void cheatHp() {
         App.getGame().getPlayer().setHp(App.getGame().getPlayer().getMaxHP());
+    }
+
+    private void cheatBossFight() {
+        MonsterController.getMonsterController().cheatBossFight();
     }
 }

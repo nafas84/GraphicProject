@@ -15,6 +15,7 @@ public class KeyManager {
     private int cheatLevel = Input.Keys.L;
     private int cheatLife = Input.Keys.J;
     private int cheatHp = Input.Keys.H;
+    private int cheatBossFight = Input.Keys.B; // TODO: نمایش و تغییرش
 
     private int pauseGame = Input.Keys.ESCAPE;
 
@@ -104,6 +105,14 @@ public class KeyManager {
 
     public void setPauseGame(int pauseGame) {
         this.pauseGame = pauseGame;
+    }
+
+    public int getCheatBossFight() {
+        return cheatBossFight;
+    }
+
+    public void setCheatBossFight(int cheatBossFight) {
+        this.cheatBossFight = cheatBossFight;
     }
 }
 

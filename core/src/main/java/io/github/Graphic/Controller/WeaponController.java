@@ -68,7 +68,26 @@ public class WeaponController {
         Vector3 worldCoordinate = new Vector3(x, y, 0);
         view.getCamera().unproject(worldCoordinate);
         if (weapon.getAmmo() > 0) {
-            bullets.add(new Bullet(worldCoordinate.x, worldCoordinate.y));
+            // handle projectile:
+            int count = weapon.getProjectile();
+
+            float startX = player.getX() + player.getHero().getSprite().getWidth() / 2f;
+            float startY = player.getY() + player.getHero().getSprite().getHeight() / 2f;
+
+            for (int i = 0; i < count; i++) {
+                float angleOffset = 0;
+                if (count > 1) {
+                    angleOffset = (i - (count - 1) / 2f) * 10;
+                }
+
+                Vector2 direction = new Vector2(worldCoordinate.x - startX, worldCoordinate.y - startY).nor();
+                direction.rotateDeg(angleOffset);
+
+                float adjustedTargetX = startX + direction.x * 1000;
+                float adjustedTargetY = startY + direction.y * 1000;
+
+                bullets.add(new Bullet(adjustedTargetX, adjustedTargetY));
+            }
             weapon.updateAmmo(-1);
 
             if (weapon.getAmmo() == 0 && App.isIsAutoReload())
@@ -85,11 +104,11 @@ public class WeaponController {
 
     private void reloadWeapon() {
         weapon.setReloading(false);
-        weapon.setAmmo(weapon.getType().getAmmoMax());
+        weapon.setAmmo(weapon.getAmmoMax());
     }
 
     public void handleManualReload() {
-        if (!weapon.isReloading() && weapon.getAmmo() < weapon.getType().getAmmoMax()) {
+        if (!weapon.isReloading() && weapon.getAmmo() < weapon.getAmmoMax()) {
             startReload();
         }
     }
@@ -107,13 +126,18 @@ public class WeaponController {
 
             // update collision with monsters:
             for (Monster monster : App.getGame().getMonsters()) {
-                //TODO !monster.getType().equals(MonsterType.Tree) &&
-                if (bullet.getRect().collidesWith(monster.getRect())) {
-                    monster.updateHp(-App.getGame().getPlayer().getWeapon().getType().getDamage());
+                if (!monster.getType().equals(MonsterType.Tree) && bullet.getRect().collidesWith(monster.getRect())) {
+                    monster.updateHp(-App.getGame().getPlayer().getWeapon().getDamage());
                     if (monster.getHp() <= 0) {
                         player.updateKills(1);
                         toRemovedMonsters.add(monster);
                         App.getGame().getSeeds().add(new Seed(monster.getSprite().getX(), monster.getSprite().getY()));
+                        if (monster.getType().equals(MonsterType.Yog)) {
+                            App.getGame().getSeeds().add(new Seed(monster.getSprite().getX() + 5, monster.getSprite().getY() + 5));
+                            App.getGame().getSeeds().add(new Seed(monster.getSprite().getX() + -5, monster.getSprite().getY() + -5));
+                        } else if (monster.getType().equals(MonsterType.EyeBat)) {
+                            App.getGame().getSeeds().add(new Seed(monster.getSprite().getX() + 5, monster.getSprite().getY() + 5));
+                        }
                     }
                     toRemoveBullets.add(bullet);
                     break;

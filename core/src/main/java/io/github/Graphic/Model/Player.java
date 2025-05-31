@@ -1,9 +1,11 @@
 package io.github.Graphic.Model;
 
 import com.badlogic.gdx.Gdx;
+import io.github.Graphic.Controller.GameController;
+import io.github.Graphic.Model.enums.Ability;
 
 import java.io.File;
-import java.io.FileReader;
+import java.util.HashMap;
 
 public class Player {
     private final int id;
@@ -25,6 +27,8 @@ public class Player {
     private int kills = 0;
     private int level = 1;
 
+    private final HashMap<Ability, Float> abilities = new HashMap<>();
+
     public Player(Hero hero, Weapon weapon, int id) {
         this.id = id;
 
@@ -45,7 +49,11 @@ public class Player {
 
     public void updateLevel() {
         this.level += 1;
-        //TODO: set random ability
+        Ability ability = Ability.getRandom();
+        abilities.put(ability, ability.getTime());
+
+        GameController.setWarning(App.getLanguage("game.ability") +
+            " " + ability.getName() + " " + ability.getDescription());
     }
 
     public void updateHp(int hp) {
@@ -69,8 +77,11 @@ public class Player {
     }
     // getter for  types:(for ability)
     public int getMaxHP() {
-        //TODO ability
-        return this.hero.getMaxHP();
+        int zarib = 0;
+        if (abilities.containsKey(Ability.Vitality))
+            zarib = 10;
+
+        return this.hero.getMaxHP() + zarib;
     }
      public int getId() {
         return id;
@@ -113,7 +124,10 @@ public class Player {
     }
 
     public float getSpeed() {
-        return this.hero.getSpeed();
+        int zarib = 1;
+        if (abilities.containsKey(Ability.Speedy))
+            zarib = 2;
+        return this.hero.getSpeed() * zarib;
     }
 
     public float getX() {
@@ -181,5 +195,17 @@ public class Player {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public HashMap<Ability, Float> getAbilities() {
+        return abilities;
+    }
+
+    public String getAbilitiesName() {
+        StringBuilder result = new StringBuilder();
+        for (Ability ability: abilities.keySet()) {
+            result.append(ability.getName()).append(" ");
+        }
+        return result.toString();
     }
 }

@@ -5,10 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import io.github.Graphic.Model.App;
-import io.github.Graphic.Model.Bullet;
-import io.github.Graphic.Model.Monster;
-import io.github.Graphic.Model.Player;
+import io.github.Graphic.Model.*;
 import io.github.Graphic.Model.enums.MonsterType;
 import io.github.Graphic.TillDown;
 
@@ -16,10 +13,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MonsterController {
+    private static MonsterController monsterController;
     private ArrayList<Bullet> monsterBullets = new ArrayList<>();
     private float lastSpawnTimeLamprey = 0;
     private float lastSpawnTimeEyeBat = 0;
     private boolean isYogSpawned = false;
+
+    public static MonsterController getMonsterController() {
+        if (monsterController == null) {
+            monsterController = new MonsterController();
+        }
+        return monsterController;
+    }
 
     public void update(){
         // draw:
@@ -78,7 +83,7 @@ public class MonsterController {
         }
     }
 
-    private void handleSpawnYog() {
+    public void handleSpawnYog() {
         float passedTime = App.getGame().getPassedTime();
         float totalTime = App.getGame().getTotalTime();
         // t/2 game passed 1 spawn
@@ -89,7 +94,14 @@ public class MonsterController {
             Monster monster = new Monster(MonsterType.Yog, spawnPos.x, spawnPos.y);
             App.getGame().getMonsters().add(monster);
         }
+    }
 
+    public void cheatBossFight() {
+        isYogSpawned = true;
+        Vector2 spawnPos = generateRandomSpawnPosition();
+
+        Monster monster = new Monster(MonsterType.Yog, spawnPos.x, spawnPos.y);
+        App.getGame().getMonsters().add(monster);
     }
 
     private Vector2 generateRandomSpawnPosition() {

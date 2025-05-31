@@ -2,6 +2,7 @@ package io.github.Graphic.Model;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import io.github.Graphic.Model.enums.Ability;
 import io.github.Graphic.Model.enums.AssetType;
 import io.github.Graphic.Model.enums.WeaponType;
 
@@ -65,6 +66,32 @@ public class Weapon {
 
     public String getAssetPath() {
         return type.getAssetPath();
+    }
+
+    public int getProjectile() {
+        int zarib = 0;
+        if (App.getGame().getPlayer().getAbilities().containsKey(Ability.Procrease))
+            zarib = 1;
+
+        return this.type.getProjectile() + zarib;
+    }
+
+    public int getAmmoMax() {
+        int zarib = 0;
+        if (App.getGame().getPlayer().getAbilities().containsKey(Ability.Amocrease))
+            zarib = 5;
+
+        return this.type.getAmmoMax() + zarib;
+    }
+
+    public int getDamage() {
+        int zarib = 0;
+
+        if (App.getGame().getPlayer().getAbilities().containsKey(Ability.Damager))
+            zarib = 25;
+
+        float damage = this.type.getDamage();
+        return Math.round(damage + (zarib / 100f) * damage);
     }
 
     public WeaponType getType() {

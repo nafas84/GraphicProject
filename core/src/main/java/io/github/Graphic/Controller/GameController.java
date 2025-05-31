@@ -67,6 +67,7 @@ public class GameController {
         Label hp = new Label("HP: " + App.getGame().getPlayer().getHp() + "    ", skin);
         Label raminTime = new Label("RemainTime : " + formatTime(App.getGame().getTimeRemaining()) + "    ", skin);
         Label position = new Label("Position : " + App.getGame().getPlayer().getX() + ", " + App.getGame().getPlayer().getY()  + "    ", skin);
+        Label abilities = new Label("    My Abilities : " + App.getGame().getPlayer().getAbilitiesName() + "    ", skin);
 
         table.add(life);
         table.add(kill);
@@ -75,7 +76,8 @@ public class GameController {
         table.add(xp);
         table.add(hp);
         table.add(raminTime);
-        table.add(position);
+        table.add(position).row();
+        table.add(abilities);
     }
 
     public void updateGameMessages() {
