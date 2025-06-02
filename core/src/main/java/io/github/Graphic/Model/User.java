@@ -16,7 +16,6 @@ public class User {
     private int totalScore = 0;
     private int totalKill = 0;
     private int bestTimeLive = 0;
-    private int totalTimeLive = 0;
 
 
     public User(String username, String password, String question, String answer, String avatarPath) {
@@ -53,6 +52,18 @@ public class User {
         return answer;
     }
 
+    public int getTotalScore() {
+        return totalScore;
+    }
+
+    public int getTotalKill() {
+        return totalKill;
+    }
+
+    public int getBestTimeLive() {
+        return bestTimeLive;
+    }
+
     public void setUsername(String username) {
         this.username = username;
     }
@@ -77,12 +88,7 @@ public class User {
         this.bestTimeLive = bestTimeLive;
     }
 
-    public void setTotalTimeLive(int totalTimeLive) {
-        this.totalTimeLive = totalTimeLive;
-    }
-
     public String getUserInfo() {
-
         return App.getLanguage("signUp.username") + "\t" + this.username + "\n\n" +
             App.getLanguage("signUp.password") + "\t" + this.password + "\n\n" +
             App.getLanguage("signUp.question") + "\t" + this.question + "\n\n" +

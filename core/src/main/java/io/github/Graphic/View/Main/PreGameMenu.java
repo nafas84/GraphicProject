@@ -17,7 +17,7 @@ import io.github.Graphic.Model.App;
 import io.github.Graphic.Model.enums.HeroType;
 import io.github.Graphic.Model.enums.WeaponType;
 import io.github.Graphic.TillDown;
-import io.github.Graphic.View.HelpMenu;
+import io.github.Graphic.View.Main.help.HelpMenu;
 
 public class PreGameMenu implements Screen {
     private final Stage stage;

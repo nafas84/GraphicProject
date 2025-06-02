@@ -165,6 +165,7 @@ public class PlayerController {
         // handle collision player with monsters: -10HP
         for (Monster monster: App.getGame().getMonsters()) {
             if (player.getHero().getRect().collidesWith(monster.getRect()) && !player.isInvincible()) {
+                GameController.setWarning(App.getLanguage("game.collision"));
                 player.updateHp(-10);
                 player.setInvincible(true);
                 player.setInvincibleTimeRemaining(1f);

@@ -1,8 +1,7 @@
-package io.github.Graphic.View;
+package io.github.Graphic.View.Main.help;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -15,7 +14,6 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import io.github.Graphic.Model.App;
 import io.github.Graphic.TillDown;
-import io.github.Graphic.View.Main.SettingMenu;
 
 public class ControllersMenu implements Screen {
     private final Stage stage;
@@ -25,7 +23,11 @@ public class ControllersMenu implements Screen {
     private final Label moveUpButton, moveDownButton, moveLeftButton, moveRightButton, autoAimButton,pauseGameButton,  reloadWeaponButton, cheatTimeButton, cheatLevelButton, cheatLifeButton, cheatHpButton;
     private final TextButton backButton;
 
-    public ControllersMenu() {
+    private final int where;
+
+    public ControllersMenu(int where) {
+        this.where = where;
+
         Skin skin = TillDown.getSkin();
 
         shash = new Label("     ", skin);
@@ -121,7 +123,7 @@ public class ControllersMenu implements Screen {
         backButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                TillDown.getGame().setScreen(new HelpMenu(0));
+                TillDown.getGame().setScreen(new HelpMenu(where));
             }
         });
     }

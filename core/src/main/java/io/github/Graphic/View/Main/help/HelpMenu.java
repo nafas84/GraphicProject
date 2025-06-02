@@ -1,4 +1,4 @@
-package io.github.Graphic.View;
+package io.github.Graphic.View.Main.help;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -43,9 +43,9 @@ public class HelpMenu implements Screen {
         table.setFillParent(true);
         table.center().row();
 
-        table.add(heroes).width(200).pad(10).row();
-        table.add(weapons).width(250).pad(10).row();
-        table.add(abilities).width(250).pad(10).row();
+        table.add(heroes).width(300).pad(10).row();
+        table.add(weapons).width(300).pad(10).row();
+        table.add(abilities).width(300).pad(10).row();
         table.add(gameControllers).width(300).pad(10).row();
         table.add(backButton).width(150).pad(10);
 
@@ -54,25 +54,25 @@ public class HelpMenu implements Screen {
         heroes.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                TillDown.getGame().setScreen(new HeroesMenu());
+                TillDown.getGame().setScreen(new HeroesMenu(where));
             }
         });
         weapons.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                TillDown.getGame().setScreen(new WeaponsMenu());
+                TillDown.getGame().setScreen(new WeaponsMenu(where));
             }
         });
         abilities.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                TillDown.getGame().setScreen(new AbilitiesMenu());
+                TillDown.getGame().setScreen(new AbilitiesMenu(where));
             }
         });
         gameControllers.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                TillDown.getGame().setScreen(new ControllersMenu());
+                TillDown.getGame().setScreen(new ControllersMenu(where));
             }
         });
         backButton.addListener(new ClickListener() {

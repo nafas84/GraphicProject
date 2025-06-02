@@ -1,4 +1,4 @@
-package io.github.Graphic.View;
+package io.github.Graphic.View.Main.help;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -13,15 +13,19 @@ import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import io.github.Graphic.Model.App;
-import io.github.Graphic.Model.enums.HeroType;
+import io.github.Graphic.Model.enums.WeaponType;
 import io.github.Graphic.TillDown;
 
-public class HeroesMenu implements Screen {
+public class WeaponsMenu implements Screen {
     private final Stage stage;
     private final Table table;
     private final TextButton backButton;
 
-    public HeroesMenu() {
+    private final int where;
+
+    public WeaponsMenu(int where) {
+        this.where = where;
+
         Skin skin = TillDown.getSkin();
         stage = new Stage(new ScreenViewport());
         table = new Table();
@@ -36,47 +40,51 @@ public class HeroesMenu implements Screen {
     public void show() {
         Gdx.input.setInputProcessor(stage);
 
-        table.add(new Label("Hero Information", TillDown.getSkin(), "title")).colspan(2).padBottom(30);
+        table.add(new Label("Weapon Information", TillDown.getSkin(), "title")).colspan(3).padBottom(30);
         table.row();
 
-        for (HeroType hero : HeroType.values()) {
-            Table heroCard = createHeroCard(hero);
-            table.add(heroCard).pad(10);
+        for (WeaponType weapon : WeaponType.values()) {
+            Table weaponCard = createWeaponCard(weapon);
+            table.add(weaponCard).pad(10);
 
-            if (hero.ordinal() % 3 == 2) table.row();
+            if (weapon.ordinal() % 3 == 2) table.row();
         }
 
-        table.add(backButton).colspan(2).width(200).pad(20);
+        table.row();
+        table.add(backButton).colspan(3).width(200).padTop(30);
 
         backButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                TillDown.getGame().setScreen(new HelpMenu(0));
+                TillDown.getGame().setScreen(new HelpMenu(where));
             }
         });
     }
 
-    private Table createHeroCard(HeroType hero) {
+    private Table createWeaponCard(WeaponType weapon) {
         Skin skin = TillDown.getSkin();
         Table card = new Table(skin);
 
-        Texture texture = new Texture(Gdx.files.internal(hero.getAssetFolderPath() + "/idle/Idle_0.png"));
+        Texture texture = new Texture(Gdx.files.internal(weapon.getAssetPath()));
         Image image = new Image(new TextureRegionDrawable(new TextureRegion(texture)));
         image.setScaling(Scaling.fit);
 
-        Label name = new Label(hero.getName(), skin, "title");
-        Label speed = new Label("Speed: " + hero.getBaseSpeed(), skin);
-        Label life = new Label("Life: " + hero.getBaseLife(), skin);
-        Label hp = new Label("Max HP: " + hero.getMaxHP(), skin);
+        Label name = new Label(weapon.getName(), skin, "title");
+        Label damage = new Label("Damage: " + weapon.getDamage(), skin);
+        Label projectile = new Label("Projectiles: " + weapon.getProjectile(), skin);
+        Label reload = new Label("Reload Time: " + weapon.getTimeReload(), skin);
+        Label ammo = new Label("Ammo Max: " + weapon.getAmmoMax(), skin);
 
         card.add(image).size(150, 150).colspan(2).pad(10);
         card.row();
         card.add(name).colspan(2).padBottom(10);
         card.row();
-        card.add(speed).left().pad(5);
-        card.add(life).left().pad(5);
+        card.add(damage).left().pad(5);
+        card.add(projectile).left().pad(5);
         card.row();
-        card.add(hp).left().colspan(2).pad(5);
+        card.add(reload).left().colspan(2).pad(5);
+        card.row();
+        card.add(ammo).left().colspan(2).pad(5);
 
         return card;
     }

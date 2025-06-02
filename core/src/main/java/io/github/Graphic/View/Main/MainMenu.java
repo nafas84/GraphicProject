@@ -14,7 +14,8 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import io.github.Graphic.Model.App;
 import io.github.Graphic.TillDown;
-import io.github.Graphic.View.HelpMenu;
+import io.github.Graphic.View.Main.help.HelpMenu;
+import io.github.Graphic.View.ScoreboardMenu;
 import io.github.Graphic.View.Start.StartMenu;
 
 public class MainMenu implements Screen {
@@ -90,7 +91,7 @@ public class MainMenu implements Screen {
         scoreboardButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                //Gdx.app.exit();
+                TillDown.getGame().setScreen(new ScoreboardMenu());
             }
         });
         settingButton.addListener(new ClickListener() {

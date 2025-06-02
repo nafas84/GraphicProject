@@ -1,4 +1,4 @@
-package io.github.Graphic.View;
+package io.github.Graphic.View.Main.help;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -13,15 +13,19 @@ import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import io.github.Graphic.Model.App;
-import io.github.Graphic.Model.enums.Ability;
+import io.github.Graphic.Model.enums.HeroType;
 import io.github.Graphic.TillDown;
 
-public class AbilitiesMenu implements Screen {
+public class HeroesMenu implements Screen {
     private final Stage stage;
     private final Table table;
     private final TextButton backButton;
 
-    public AbilitiesMenu() {
+    private final int where;
+
+    public HeroesMenu(int where) {
+        this.where = where;
+
         Skin skin = TillDown.getSkin();
         stage = new Stage(new ScreenViewport());
         table = new Table();
@@ -36,42 +40,47 @@ public class AbilitiesMenu implements Screen {
     public void show() {
         Gdx.input.setInputProcessor(stage);
 
-        table.add(new Label("Ability Information", TillDown.getSkin(), "title")).colspan(3).padBottom(30);
+        table.add(new Label("Hero Information", TillDown.getSkin(), "title")).colspan(2).padBottom(30);
         table.row();
 
-        for (Ability ability : Ability.values()) {
-            Table abilityCard = createAbilityCard(ability);
-            table.add(abilityCard).pad(10);
+        for (HeroType hero : HeroType.values()) {
+            Table heroCard = createHeroCard(hero);
+            table.add(heroCard).pad(10);
 
-            if (ability.ordinal() % 3 == 2) table.row();
+            if (hero.ordinal() % 3 == 2) table.row();
         }
 
-        table.add(backButton).colspan(3).width(200).padTop(30);
+        table.add(backButton).colspan(2).width(200).pad(20);
 
         backButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                TillDown.getGame().setScreen(new HelpMenu(0));
+                TillDown.getGame().setScreen(new HelpMenu(where));
             }
         });
     }
 
-    private Table createAbilityCard(Ability ability) {
+    private Table createHeroCard(HeroType hero) {
         Skin skin = TillDown.getSkin();
         Table card = new Table(skin);
 
-        Texture texture = new Texture(Gdx.files.internal(ability.getPath()));
+        Texture texture = new Texture(Gdx.files.internal(hero.getAssetFolderPath() + "/idle/Idle_0.png"));
         Image image = new Image(new TextureRegionDrawable(new TextureRegion(texture)));
         image.setScaling(Scaling.fit);
 
-        Label name = new Label(ability.getName(), skin, "title");
-        Label description = new Label(ability.getDescription(), skin);
+        Label name = new Label(hero.getName(), skin, "title");
+        Label speed = new Label("Speed: " + hero.getBaseSpeed(), skin);
+        Label life = new Label("Life: " + hero.getBaseLife(), skin);
+        Label hp = new Label("Max HP: " + hero.getMaxHP(), skin);
 
-        card.add(image).size(100, 100).colspan(2).pad(10);
+        card.add(image).size(150, 150).colspan(2).pad(10);
         card.row();
         card.add(name).colspan(2).padBottom(10);
         card.row();
-        card.add(description).colspan(2).pad(5);
+        card.add(speed).left().pad(5);
+        card.add(life).left().pad(5);
+        card.row();
+        card.add(hp).left().colspan(2).pad(5);
 
         return card;
     }
