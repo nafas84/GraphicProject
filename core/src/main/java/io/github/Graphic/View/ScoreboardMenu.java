@@ -108,7 +108,7 @@ public class ScoreboardMenu implements Screen {
                 comparator = Comparator.comparingInt(User::getTotalKill).reversed();
                 break;
             case "Best Time Live":
-                comparator = Comparator.comparingInt(User::getBestTimeLive).reversed();
+                comparator = Comparator.comparingDouble(User::getBestTimeLive).reversed();
                 break;
             case "Score":
             default:

@@ -17,6 +17,8 @@ import io.github.Graphic.Model.App;
 import io.github.Graphic.TillDown;
 import io.github.Graphic.View.Main.MainMenu;
 
+import java.io.IOException;
+
 public class GameView implements Screen, InputProcessor {
     private Stage stage;
     private Table table = new Table();
@@ -90,7 +92,11 @@ public class GameView implements Screen, InputProcessor {
             updateCamera();
             // update game
             TillDown.getBatch().begin();
-            controller.updateGame();
+            try {
+                controller.updateGame();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
             TillDown.getBatch().end();
         }
 
@@ -132,7 +138,11 @@ public class GameView implements Screen, InputProcessor {
                             paused = false;
                             break;
                         case "give up":
-                            TillDown.getGame().setScreen(new EndGameMenu(0));
+                            try {
+                                TillDown.getGame().setScreen(new EndGameMenu(0));
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
                             break;
                         case "save & exit":
                             // reset game save & exit

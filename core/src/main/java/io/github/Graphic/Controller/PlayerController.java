@@ -12,6 +12,7 @@ import io.github.Graphic.TillDown;
 import io.github.Graphic.View.EndGameMenu;
 import io.github.Graphic.View.GameView;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -32,7 +33,7 @@ public class PlayerController {
         return weaponController;
     }
 
-    public void update(){
+    public void update() throws IOException {
         player.getHero().getSprite().draw(TillDown.getBatch());
 
         handleAnimation();
@@ -65,7 +66,7 @@ public class PlayerController {
     }
 
 
-    private void handlePlayerStatus() {
+    private void handlePlayerStatus() throws IOException {
         // handle invincible:
         if (player.isInvincible()) {
             player.updateInvincibleTimeRemaining(-Gdx.graphics.getDeltaTime());

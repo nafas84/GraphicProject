@@ -12,6 +12,8 @@ import io.github.Graphic.Model.enums.MonsterType;
 import io.github.Graphic.TillDown;
 import io.github.Graphic.View.*;
 
+import java.io.IOException;
+
 
 public class GameController {
     private GameView view;
@@ -30,7 +32,7 @@ public class GameController {
         GameController.warning = warning;
     }
 
-    public void updateGame() {
+    public void updateGame() throws IOException {
         handleTime();
         // draw sprite, animation,...
         MapController.update();
@@ -41,7 +43,7 @@ public class GameController {
         updateGameMessages();
     }
 
-    private void handleTime() {
+    private void handleTime() throws IOException {
         if (App.getGame().getTimeRemaining() <= 0) {
             if (App.getGame().getPlayer().getLife() <= 0) {
                 TillDown.getGame().setScreen(new EndGameMenu(-1));

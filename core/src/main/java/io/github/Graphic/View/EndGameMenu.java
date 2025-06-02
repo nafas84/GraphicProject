@@ -15,7 +15,9 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import io.github.Graphic.Controller.MainMenuController;
 import io.github.Graphic.Model.App;
+import io.github.Graphic.Model.Player;
 import io.github.Graphic.Model.Result;
+import io.github.Graphic.Model.User;
 import io.github.Graphic.TillDown;
 import io.github.Graphic.View.Main.ChangeAvatar;
 import io.github.Graphic.View.Main.MainMenu;
@@ -31,7 +33,8 @@ public class EndGameMenu implements Screen {
     private final Label resultGame, gameInfo;
     private final TextButton exit, backButton;
 
-    public EndGameMenu (int state) {
+    public EndGameMenu (int state) throws IOException {
+        updateGameInfoToUser();
         //TODO: language
         String result = "";
         if (state == -1) {
@@ -79,19 +82,23 @@ public class EndGameMenu implements Screen {
         backButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                App.setGame(null);
                 TillDown.getGame().setScreen(new MainMenu());
             }
         });
     }
 
-    private void updateGameInfoToUser() {
+    private void updateGameInfoToUser() throws IOException {
+        Player player = App.getGame().getPlayer();
+        User user = App.getCurrentUser();
 
+        int score = (int) (App.getGame().getPassedTime() * player.getKills());
+        user.setTotalKill(user.getTotalKill() + player.getKills());
+        user.setBestTimeLive(Math.max(user.getBestTimeLive(), App.getGame().getPassedTime()));
+        user.setTotalScore(user.getTotalScore() + score);
+
+        App.updateUser();
     }
-
-    private void resetGame() {
-
-    }
-
 
     @Override
     public void render(float delta) {

@@ -15,7 +15,7 @@ public class User {
 
     private int totalScore = 0;
     private int totalKill = 0;
-    private int bestTimeLive = 0;
+    private float bestTimeLive = 0;
 
 
     public User(String username, String password, String question, String answer, String avatarPath) {
@@ -60,7 +60,7 @@ public class User {
         return totalKill;
     }
 
-    public int getBestTimeLive() {
+    public float getBestTimeLive() {
         return bestTimeLive;
     }
 
@@ -84,7 +84,7 @@ public class User {
         this.totalKill = totalKill;
     }
 
-    public void setBestTimeLive(int bestTimeLive) {
+    public void setBestTimeLive(float bestTimeLive) {
         this.bestTimeLive = bestTimeLive;
     }
 
