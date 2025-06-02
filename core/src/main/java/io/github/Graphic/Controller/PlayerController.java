@@ -9,7 +9,6 @@ import io.github.Graphic.Model.enums.Ability;
 import io.github.Graphic.TillDown;
 import io.github.Graphic.View.EndGameMenu;
 import io.github.Graphic.View.GameView;
-import io.github.Graphic.View.Start.StartMenu;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -107,7 +106,7 @@ public class PlayerController {
         }
 
         // auto aim, reload weapon:
-        if (Gdx.input.isKeyPressed(App.getKeyManager().getAutoAim())){
+        if (Gdx.input.isKeyPressed(App.getKeyManager().getCheatBossFight())){
             //TODO
         }
         if (Gdx.input.isKeyPressed(App.getKeyManager().getReloadWeapon())){

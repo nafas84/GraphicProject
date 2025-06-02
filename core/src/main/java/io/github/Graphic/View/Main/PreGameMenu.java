@@ -17,6 +17,7 @@ import io.github.Graphic.Model.App;
 import io.github.Graphic.Model.enums.HeroType;
 import io.github.Graphic.Model.enums.WeaponType;
 import io.github.Graphic.TillDown;
+import io.github.Graphic.View.HelpMenu;
 
 public class PreGameMenu implements Screen {
     private final Stage stage;
@@ -24,7 +25,7 @@ public class PreGameMenu implements Screen {
 
     private final Label hero, weapon, time;
     private final SelectBox selectHeroBox, selectWeaponBox, selectTimeBox;
-    private final TextButton newGameButton, backButton;
+    private final TextButton newGameButton, backButton, helpButton;
 
     public PreGameMenu () {
         Skin skin = TillDown.getSkin();
@@ -35,6 +36,7 @@ public class PreGameMenu implements Screen {
 
         backButton = new TextButton(App.getLanguage("button.back"), skin);
         newGameButton = new TextButton(App.getLanguage("button.newGame"), skin);
+        helpButton = new TextButton(App.getLanguage("button.talent"), skin);
 
         selectHeroBox = new SelectBox<>(skin);
         selectHeroBox.setItems("Dasher", "Diamond", "Lilith", "Scarlet", "Shana");
@@ -107,6 +109,7 @@ public class PreGameMenu implements Screen {
         table.add(selectTimeBox).padLeft(100);
 
         table.row();
+        table.add(helpButton).width(150).pad(10);
         table.add(backButton).width(150).pad(10);
         table.add(newGameButton).width(300).pad(10);
 
@@ -122,6 +125,12 @@ public class PreGameMenu implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 TillDown.getGame().setScreen(new MainMenu());
+            }
+        });
+        helpButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                TillDown.getGame().setScreen(new HelpMenu(1));
             }
         });
     }

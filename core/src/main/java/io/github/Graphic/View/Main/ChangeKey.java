@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -16,12 +15,12 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import io.github.Graphic.Model.App;
 import io.github.Graphic.TillDown;
-import io.github.Graphic.View.Start.StartMenu;
 
 public class ChangeKey implements Screen {
     private final Stage stage;
     private final Table table;
 
+    // حوصله نداشتم ولی اوتو ایم همون چیت باس فایته
     private final Label help, moveUp, moveDown, moveLeft, moveRight, autoAim, reloadWeapon, cheatTime, cheatLevel, cheatLife, cheatHp, pauseGame, shash;
     private final TextButton moveUpButton, moveDownButton, moveLeftButton, moveRightButton, autoAimButton,pauseGameButton,  reloadWeaponButton, cheatTimeButton, cheatLevelButton, cheatLifeButton, cheatHpButton, backButton;
 
@@ -46,7 +45,7 @@ public class ChangeKey implements Screen {
         moveDownButton = new TextButton(Input.Keys.toString(App.getKeyManager().getMoveDown()), skin);
         moveLeftButton = new TextButton(Input.Keys.toString(App.getKeyManager().getMoveLeft()), skin);
         moveRightButton = new TextButton(Input.Keys.toString(App.getKeyManager().getMoveRight()), skin);
-        autoAimButton = new TextButton(Input.Keys.toString(App.getKeyManager().getAutoAim()), skin);
+        autoAimButton = new TextButton(Input.Keys.toString(App.getKeyManager().getCheatBossFight()), skin);
         reloadWeaponButton = new TextButton(Input.Keys.toString(App.getKeyManager().getReloadWeapon()), skin);
         cheatTimeButton = new TextButton(Input.Keys.toString(App.getKeyManager().getCheatTime()), skin);
         cheatLevelButton = new TextButton(Input.Keys.toString(App.getKeyManager().getCheatLevel()), skin);
@@ -177,7 +176,7 @@ public class ChangeKey implements Screen {
                 Gdx.input.setInputProcessor(new InputAdapter() {
                     @Override
                     public boolean keyDown(int keycode) {
-                        App.getKeyManager().setAutoAim(keycode);
+                        App.getKeyManager().setCheatBossFight(keycode);
                         autoAimButton.setText(Input.Keys.toString(keycode));
                         Gdx.input.setInputProcessor(stage);
                         return true;

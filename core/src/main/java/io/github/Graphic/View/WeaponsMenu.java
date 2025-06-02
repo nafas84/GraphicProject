@@ -1,0 +1,100 @@
+package io.github.Graphic.View;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Scaling;
+import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import io.github.Graphic.Model.App;
+import io.github.Graphic.Model.enums.WeaponType;
+import io.github.Graphic.TillDown;
+
+public class WeaponsMenu implements Screen {
+    private final Stage stage;
+    private final Table table;
+    private final TextButton backButton;
+
+    public WeaponsMenu() {
+        Skin skin = TillDown.getSkin();
+        stage = new Stage(new ScreenViewport());
+        table = new Table();
+        backButton = new TextButton(App.getLanguage("button.back"), skin);
+
+        table.setFillParent(true);
+        table.top().pad(20);
+        stage.addActor(table);
+    }
+
+    @Override
+    public void show() {
+        Gdx.input.setInputProcessor(stage);
+
+        table.add(new Label("Weapon Information", TillDown.getSkin(), "title")).colspan(3).padBottom(30);
+        table.row();
+
+        for (WeaponType weapon : WeaponType.values()) {
+            Table weaponCard = createWeaponCard(weapon);
+            table.add(weaponCard).pad(10);
+
+            if (weapon.ordinal() % 3 == 2) table.row();
+        }
+
+        table.row();
+        table.add(backButton).colspan(3).width(200).padTop(30);
+
+        backButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                TillDown.getGame().setScreen(new HelpMenu(0));
+            }
+        });
+    }
+
+    private Table createWeaponCard(WeaponType weapon) {
+        Skin skin = TillDown.getSkin();
+        Table card = new Table(skin);
+
+        Texture texture = new Texture(Gdx.files.internal(weapon.getAssetPath()));
+        Image image = new Image(new TextureRegionDrawable(new TextureRegion(texture)));
+        image.setScaling(Scaling.fit);
+
+        Label name = new Label(weapon.getName(), skin, "title");
+        Label damage = new Label("Damage: " + weapon.getDamage(), skin);
+        Label projectile = new Label("Projectiles: " + weapon.getProjectile(), skin);
+        Label reload = new Label("Reload Time: " + weapon.getTimeReload(), skin);
+        Label ammo = new Label("Ammo Max: " + weapon.getAmmoMax(), skin);
+
+        card.add(image).size(150, 150).colspan(2).pad(10);
+        card.row();
+        card.add(name).colspan(2).padBottom(10);
+        card.row();
+        card.add(damage).left().pad(5);
+        card.add(projectile).left().pad(5);
+        card.row();
+        card.add(reload).left().colspan(2).pad(5);
+        card.row();
+        card.add(ammo).left().colspan(2).pad(5);
+
+        return card;
+    }
+
+    @Override
+    public void render(float delta) {
+        ScreenUtils.clear(0, 0, 0, 1);
+        stage.act(delta);
+        stage.draw();
+    }
+
+    @Override public void resize(int width, int height) { stage.getViewport().update(width, height, true); }
+    @Override public void pause() {}
+    @Override public void resume() {}
+    @Override public void hide() {}
+    @Override public void dispose() { stage.dispose(); }
+}

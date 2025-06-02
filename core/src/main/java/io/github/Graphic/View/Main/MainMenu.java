@@ -14,6 +14,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import io.github.Graphic.Model.App;
 import io.github.Graphic.TillDown;
+import io.github.Graphic.View.HelpMenu;
 import io.github.Graphic.View.Start.StartMenu;
 
 public class MainMenu implements Screen {
@@ -101,7 +102,7 @@ public class MainMenu implements Screen {
         talentButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                //controller.handleGuest();
+                TillDown.getGame().setScreen(new HelpMenu(0));
             }
         });
         logoutButton.addListener(new ClickListener() {

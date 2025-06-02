@@ -8,14 +8,13 @@ public class KeyManager {
     private int moveLeft = Input.Keys.A;
     private int moveRight = Input.Keys.D;
 
-    private int autoAim = Input.Keys.SPACE;
+    private int cheatBossFight = Input.Keys.B;
     private int reloadWeapon = Input.Keys.R;
 
     private int cheatTime = Input.Keys.T;
     private int cheatLevel = Input.Keys.L;
     private int cheatLife = Input.Keys.J;
     private int cheatHp = Input.Keys.H;
-    private int cheatBossFight = Input.Keys.B; // TODO: نمایش و تغییرش
 
     private int pauseGame = Input.Keys.ESCAPE;
 
@@ -49,14 +48,6 @@ public class KeyManager {
 
     public void setMoveRight(int moveRight) {
         this.moveRight = moveRight;
-    }
-
-    public int getAutoAim() {
-        return autoAim;
-    }
-
-    public void setAutoAim(int autoAim) {
-        this.autoAim = autoAim;
     }
 
     public int getReloadWeapon() {
