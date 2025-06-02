@@ -59,7 +59,7 @@ public class ControllersMenu implements Screen {
         cheatHpButton = new Label(Input.Keys.toString(App.getKeyManager().getCheatHp()), skin);
         pauseGameButton = new Label(Input.Keys.toString(App.getKeyManager().getPauseGame()), skin);
 
-        // افزایش سایز فونت کلیدها
+
         moveUpButton.setFontScale(labelFontScale);
         moveDownButton.setFontScale(labelFontScale);
         moveLeftButton.setFontScale(labelFontScale);

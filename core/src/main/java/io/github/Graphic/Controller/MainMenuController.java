@@ -66,7 +66,7 @@ public class MainMenuController {
             }
 
              App.getCurrentUser().setPassword(password);
-             App.updateCurrentUser();
+             App.updateUser();
         }
 
 
@@ -88,7 +88,7 @@ public class MainMenuController {
 
     public static void changeDefaultAvatar(int index) throws IOException {
         App.getCurrentUser().setAvatarPath("assets/defaultAvatar/avatar" + index + ".jpg");
-        App.updateCurrentUser();
+        App.updateUser();
     }
 
     public static void newGame(String hero, String weapon, int time) {

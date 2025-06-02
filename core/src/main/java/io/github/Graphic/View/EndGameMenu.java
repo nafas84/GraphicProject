@@ -84,6 +84,14 @@ public class EndGameMenu implements Screen {
         });
     }
 
+    private void updateGameInfoToUser() {
+
+    }
+
+    private void resetGame() {
+
+    }
+
 
     @Override
     public void render(float delta) {
@@ -115,9 +123,5 @@ public class EndGameMenu implements Screen {
     @Override
     public void dispose() {
         stage.dispose();
-    }
-
-    private void resetGame(){
-
     }
 }

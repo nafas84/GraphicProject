@@ -141,9 +141,7 @@ public class App {
         return (userDirs != null) ? userDirs.length : 0;
     }
 
-
-
-    public static void updateCurrentUser() throws IOException {
+    public static void updateUser() throws IOException {
         User currentUser = App.getCurrentUser();
         if (currentUser == null) return;
 

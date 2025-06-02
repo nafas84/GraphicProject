@@ -8,15 +8,15 @@ public class KeyManager {
     private int moveLeft = Input.Keys.A;
     private int moveRight = Input.Keys.D;
 
-    private int cheatBossFight = Input.Keys.B;
     private int reloadWeapon = Input.Keys.R;
+    private int pauseGame = Input.Keys.ESCAPE;
 
     private int cheatTime = Input.Keys.T;
     private int cheatLevel = Input.Keys.L;
     private int cheatLife = Input.Keys.J;
     private int cheatHp = Input.Keys.H;
+    private int cheatBossFight = Input.Keys.B;
 
-    private int pauseGame = Input.Keys.ESCAPE;
 
     public int getMoveUp() {
         return moveUp;

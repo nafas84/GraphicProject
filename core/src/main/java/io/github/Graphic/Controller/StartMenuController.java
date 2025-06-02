@@ -84,7 +84,7 @@ public class StartMenuController {
         }
 
         App.getCurrentUser().setPassword(newPassword);
-        App.updateCurrentUser();
+        App.updateUser();
         return new Result(true, "User successfully created.");
     }
 

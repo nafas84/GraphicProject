@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import io.github.Graphic.Model.*;
 import io.github.Graphic.Model.enums.Ability;
 import io.github.Graphic.TillDown;
@@ -105,13 +107,15 @@ public class PlayerController {
             isMoving = true;
         }
 
-        // auto aim, reload weapon:
-        if (Gdx.input.isKeyPressed(App.getKeyManager().getCheatBossFight())){
-            //TODO
+        // reload weapon:
+        if (Gdx.input.isKeyJustPressed(App.getKeyManager().getPauseGame()) && !view.isPaused()){
+            view.setPaused(true);
+            view.showPauseDialog();
         }
-        if (Gdx.input.isKeyPressed(App.getKeyManager().getReloadWeapon())){
+        if (Gdx.input.isKeyJustPressed(App.getKeyManager().getReloadWeapon())){
             weaponController.handleManualReload();
         }
+
         // cheats:
         if (Gdx.input.isKeyJustPressed(App.getKeyManager().getCheatTime())){
             cheatTime();
