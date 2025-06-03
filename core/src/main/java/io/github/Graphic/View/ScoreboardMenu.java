@@ -119,7 +119,7 @@ public class ScoreboardMenu implements Screen {
             Label usernameLabel = new Label(user.getUsername(), skin);
             Label scoreLabel = new Label(String.valueOf(user.getTotalScore()), skin);
             Label killLabel = new Label(String.valueOf(user.getTotalKill()), skin);
-            Label bestTimeLabel = new Label(String.valueOf(user.getBestTimeLive()), skin);
+            Label bestTimeLabel = new Label(formatTime(user.getBestTimeLive()), skin);
 
             // جلوه بصری 3 نفر اول
             int userRank = sortedUsers.indexOf(user) + 1;
@@ -172,6 +172,12 @@ public class ScoreboardMenu implements Screen {
             }
         });
 
+    }
+
+    private String formatTime(float seconds) {
+        int min = (int) seconds / 60;
+        int sec = (int) seconds % 60;
+        return String.format("%02d:%02d", min, sec);
     }
 
     private void loadUsers() {
