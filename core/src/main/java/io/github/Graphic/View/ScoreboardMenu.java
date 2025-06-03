@@ -17,6 +17,7 @@ import com.google.gson.Gson;
 import io.github.Graphic.Model.App;
 import io.github.Graphic.Model.User;
 import io.github.Graphic.TillDown;
+import io.github.Graphic.View.Main.MainMenu;
 
 import java.io.File;
 import java.io.FileReader;
@@ -27,21 +28,19 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class ScoreboardMenu implements Screen {
-
     private final Stage stage;
     private final Table mainTable;
-    private final Skin skin;
     private final SelectBox<String> sortSelectBox;
-    private final Table listTable;
     private final TextButton backButton;
 
     private List<User> allUsers;
     private final User currentUser;
 
     public ScoreboardMenu() {
-        this.skin = TillDown.getSkin();
+        Skin skin = TillDown.getSkin();
         this.stage = new Stage(new ScreenViewport());
 
+        // load users:
         loadUsers();
         this.currentUser = App.getCurrentUser();
 
@@ -49,19 +48,14 @@ public class ScoreboardMenu implements Screen {
         mainTable.setFillParent(true);
         mainTable.pad(30);
 
-        // SelectBox برای انتخاب نوع سورت
         sortSelectBox = new SelectBox<>(skin);
-        sortSelectBox.setItems("Score", "Kill", "Best Time Live");
+        sortSelectBox.setItems("Score", "Kill", "Time", "Username");
         sortSelectBox.setSelected("Score");
 
-        listTable = new Table(skin);
-        listTable.top().left();
 
         backButton = new TextButton(App.getLanguage("button.back"), skin);
 
-        setupUI();
         updateList("Score");
-
         // تغییر سورت
         sortSelectBox.addListener(new ClickListener() {
             @Override
@@ -71,44 +65,32 @@ public class ScoreboardMenu implements Screen {
         });
     }
 
-    private void setupUI() {
-        mainTable.add(new Label("Scoreboard", skin, "title")).colspan(4).center().padBottom(40).row();
+    private void updateList(String sortBy) {
+        Skin skin = TillDown.getSkin();
+        mainTable.clear();
 
-        mainTable.add(new Label("Sort by:", skin)).left().padRight(20);
+
+        mainTable.add(new Label(App.getLanguage("title.scoreboard"), skin, "title")).colspan(4).center().padBottom(40).row();
+
+        mainTable.add(new Label(App.getLanguage("scoreboard.sortBy"), skin)).left().padRight(20);
         mainTable.add(sortSelectBox).left().width(150).padBottom(20).row();
 
-        // جدول لیست یوزرها
-        mainTable.add(new Label("Rank", skin)).width(50);
-        mainTable.add(new Label("Username", skin)).width(200);
-        mainTable.add(new Label("Score", skin)).width(100);
-        mainTable.add(new Label("Kills", skin)).width(100);
-        mainTable.add(new Label("Best Time", skin)).width(150).row();
+        mainTable.add(new Label(App.getLanguage("scoreboard.rank"), skin)).width(50);
+        mainTable.add(new Label(App.getLanguage("scoreboard.username"), skin)).width(200);
+        mainTable.add(new Label(App.getLanguage("scoreboard.score"), skin)).width(100);
+        mainTable.add(new Label(App.getLanguage("scoreboard.kill"), skin)).width(100);
+        mainTable.add(new Label(App.getLanguage("scoreboard.time"), skin)).width(150).row();
 
-        mainTable.add(listTable).colspan(5).expand().fill().top().left().row();
-
-        mainTable.add(backButton).colspan(5).center().padTop(30).width(150).height(50);
-
-        stage.addActor(mainTable);
-
-        backButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                TillDown.getGame().setScreen(new io.github.Graphic.View.Main.SettingMenu());
-            }
-        });
-    }
-
-    private void updateList(String sortBy) {
-        listTable.clear();
-
-        // سورت کردن بر اساس انتخاب
         Comparator<User> comparator;
         switch (sortBy) {
             case "Kill":
                 comparator = Comparator.comparingInt(User::getTotalKill).reversed();
                 break;
-            case "Best Time Live":
+            case "Time":
                 comparator = Comparator.comparingDouble(User::getBestTimeLive).reversed();
+                break;
+            case "Username":
+                comparator = Comparator.comparing(User::getUsername);
                 break;
             case "Score":
             default:
@@ -148,11 +130,11 @@ public class ScoreboardMenu implements Screen {
                 killLabel.setColor(Color.GOLD);
                 bestTimeLabel.setColor(Color.GOLD);
             } else if (userRank == 2) {
-                rankLabel.setColor(Color.BLUE);
-                usernameLabel.setColor(Color.BLUE);
-                scoreLabel.setColor(Color.BLUE);
-                killLabel.setColor(Color.BLUE);
-                bestTimeLabel.setColor(Color.BLUE);
+                rankLabel.setColor(Color.PURPLE);
+                usernameLabel.setColor(Color.PURPLE);
+                scoreLabel.setColor(Color.PURPLE);
+                killLabel.setColor(Color.PURPLE);
+                bestTimeLabel.setColor(Color.PURPLE);
             } else if (userRank == 3) {
                 rankLabel.setColor(Color.BROWN);
                 usernameLabel.setColor(Color.BROWN);
@@ -163,21 +145,33 @@ public class ScoreboardMenu implements Screen {
 
             // اگر بازیکن فعلی هست جلوه متمایز بده
             if (isCurrentUser) {
-                rankLabel.setColor(Color.CYAN);
-                usernameLabel.setColor(Color.CYAN);
-                scoreLabel.setColor(Color.CYAN);
-                killLabel.setColor(Color.CYAN);
-                bestTimeLabel.setColor(Color.CYAN);
+                rankLabel.setColor(Color.GREEN);
+                usernameLabel.setColor(Color.GREEN);
+                scoreLabel.setColor(Color.GREEN);
+                killLabel.setColor(Color.GREEN);
+                bestTimeLabel.setColor(Color.GREEN);
             }
 
-            listTable.add(rankLabel).width(50).pad(5);
-            listTable.add(usernameLabel).width(200).pad(5);
-            listTable.add(scoreLabel).width(100).pad(5);
-            listTable.add(killLabel).width(100).pad(5);
-            listTable.add(bestTimeLabel).width(150).pad(5).row();
+            mainTable.add(rankLabel).width(50).pad(5);
+            mainTable.add(usernameLabel).width(200).pad(5);
+            mainTable.add(scoreLabel).width(100).pad(5);
+            mainTable.add(killLabel).width(100).pad(5);
+            mainTable.add(bestTimeLabel).width(150).pad(5).row();
 
             rank++;
         }
+
+        mainTable.add(backButton).width(150);
+
+        stage.addActor(mainTable);
+
+        backButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                TillDown.getGame().setScreen(new MainMenu());
+            }
+        });
+
     }
 
     private void loadUsers() {

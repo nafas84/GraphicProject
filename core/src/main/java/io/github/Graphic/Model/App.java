@@ -23,7 +23,7 @@ public class App {
 
     private static boolean isSfx = true;
     private static boolean isColored = true;
-    private static boolean isAutoReload = false;
+    private static boolean isAutoReload = true;
 
     // music:
     private static float musicVolume = 1f;// 0-1

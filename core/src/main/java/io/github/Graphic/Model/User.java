@@ -92,6 +92,7 @@ public class User {
         return App.getLanguage("signUp.username") + "\t" + this.username + "\n\n" +
             App.getLanguage("signUp.password") + "\t" + this.password + "\n\n" +
             App.getLanguage("signUp.question") + "\t" + this.question + "\n\n" +
-            App.getLanguage("signUp.answer") + "\t" + this.answer + "\n\n";
+            App.getLanguage("signUp.answer") + "\t" + this.answer + "\n\n" +
+            App.getLanguage("signUp.score") + "\t" + this.totalScore + "\n\n";
     }
 }

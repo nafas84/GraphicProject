@@ -135,6 +135,8 @@ public class WeaponController {
                         if (monster.getType().equals(MonsterType.Yog)) {
                             App.getGame().getSeeds().add(new Seed(monster.getSprite().getX() + 5, monster.getSprite().getY() + 5));
                             App.getGame().getSeeds().add(new Seed(monster.getSprite().getX() + -5, monster.getSprite().getY() + -5));
+                            App.getGame().getSeeds().add(new Seed(monster.getSprite().getX() + -10, monster.getSprite().getY() + 5));
+                            App.getGame().getSeeds().add(new Seed(monster.getSprite().getX() + -10, monster.getSprite().getY() + 10));
                         } else if (monster.getType().equals(MonsterType.EyeBat)) {
                             App.getGame().getSeeds().add(new Seed(monster.getSprite().getX() + 5, monster.getSprite().getY() + 5));
                         }

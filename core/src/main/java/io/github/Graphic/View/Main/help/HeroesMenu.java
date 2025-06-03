@@ -40,7 +40,7 @@ public class HeroesMenu implements Screen {
     public void show() {
         Gdx.input.setInputProcessor(stage);
 
-        table.add(new Label("Hero Information", TillDown.getSkin(), "title")).colspan(2).padBottom(30);
+        table.add(new Label(App.getLanguage("title.hero"), TillDown.getSkin(), "title")).colspan(2).padBottom(30);
         table.row();
 
         for (HeroType hero : HeroType.values()) {
@@ -69,9 +69,9 @@ public class HeroesMenu implements Screen {
         image.setScaling(Scaling.fit);
 
         Label name = new Label(hero.getName(), skin, "title");
-        Label speed = new Label("Speed: " + hero.getBaseSpeed(), skin);
-        Label life = new Label("Life: " + hero.getBaseLife(), skin);
-        Label hp = new Label("Max HP: " + hero.getMaxHP(), skin);
+        Label speed = new Label(App.getLanguage("hero.speed") + " " + hero.getBaseSpeed(), skin);
+        Label life = new Label(App.getLanguage("hero.life") + " " + hero.getBaseLife(), skin);
+        Label hp = new Label(App.getLanguage("hero.HP") +" " + hero.getMaxHP(), skin);
 
         card.add(image).size(150, 150).colspan(2).pad(10);
         card.row();

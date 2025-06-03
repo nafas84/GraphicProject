@@ -54,21 +54,20 @@ public class GameController {
     }
 
     public void updateGameBar() {
-        //TODO: language
         Table table = view.getTable();
         table.clearChildren();
 
         Skin skin = TillDown.getSkin();
         int neededXp = App.getGame().getPlayer().getXpNeedLevelUp() - App.getGame().getPlayer().getXp();
 
-        Label life = new Label("    life: " + App.getGame().getPlayer().getLife() + "    ", skin);
-        Label kill = new Label("kill: " + App.getGame().getPlayer().getKills() + "    ", skin);
-        Label ammo = new Label("ammo: " + App.getGame().getPlayer().getWeapon().getAmmo() + "    ", skin);
-        Label level = new Label("level: " + App.getGame().getPlayer().getLevel() + "    ", skin);
-        Label xp = new Label("Need XP to level Up: " + neededXp + "    ", skin);
-        Label hp = new Label("HP: " + App.getGame().getPlayer().getHp() + "    ", skin);
-        Label raminTime = new Label("RemainTime : " + formatTime(App.getGame().getTimeRemaining()) + "    ", skin);
-        Label abilities = new Label("    My Abilities : " + App.getGame().getPlayer().getAbilitiesName() + "    ", skin);
+        Label life = new Label("    " + App.getLanguage("game.controller.life") +" " + App.getGame().getPlayer().getLife() + "    ", skin);
+        Label kill = new Label(App.getLanguage("game.controller.kill") + " " + App.getGame().getPlayer().getKills() + "    ", skin);
+        Label ammo = new Label(App.getLanguage("game.controller.ammo") +" " + App.getGame().getPlayer().getWeapon().getAmmo() + "    ", skin);
+        Label level = new Label(App.getLanguage("game.controller.level") +" " + App.getGame().getPlayer().getLevel() + "    ", skin);
+        Label xp = new Label(App.getLanguage("game.controller.xp") +" " + neededXp + "    ", skin);
+        Label hp = new Label(App.getLanguage("game.controller.hp") + " " + App.getGame().getPlayer().getHp() + "    ", skin);
+        Label raminTime = new Label(App.getLanguage("game.controller.remainTime") + " " + formatTime(App.getGame().getTimeRemaining()) + "    ", skin);
+        Label abilities = new Label(App.getLanguage("game.controller.ability") +" " + App.getGame().getPlayer().getAbilitiesName() + "    ", skin);
 
         table.add(life);
         table.add(kill);
@@ -76,7 +75,7 @@ public class GameController {
         table.add(level);
         table.add(xp);
         table.add(hp);
-        table.add(raminTime).row();
+        table.add(raminTime);
         table.add(abilities);
     }
 

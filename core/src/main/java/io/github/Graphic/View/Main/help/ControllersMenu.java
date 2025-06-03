@@ -31,7 +31,7 @@ public class ControllersMenu implements Screen {
         Skin skin = TillDown.getSkin();
 
         shash = new Label("     ", skin);
-        help = new Label("Game Controller", TillDown.getSkin(), "title");
+        help = new Label(App.getLanguage("title.control"), TillDown.getSkin(), "title");
 
         moveUp = new Label(App.getLanguage("up"), skin, "subtitle");
         moveDown = new Label(App.getLanguage("down"), skin, "subtitle");

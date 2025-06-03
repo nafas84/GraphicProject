@@ -55,12 +55,11 @@ public class Game {
     }
 
     public String gameInfo() {
-        //TODO: language
         int score = (int) (getPassedTime() * player.getKills());
-        return "--- BATTLE REPORT ---\n" +
-            "\n" + "Player         : " + player.getUsername() + "\n" +
-            "Time Survived  : " + getPassedTime() + " seconds\n" +
-            "Enemies Slain  : " + player.getKills() + "\n" +
-            "Score  : " + score + "\n";
+        return App.getLanguage("gameInfo.battle") + "\n" +
+            App.getLanguage("gameInfo.player") + "\n" + "         : " + player.getUsername() + "\n" +
+            App.getLanguage("gameInfo.time") + "  : " + getPassedTime() + " seconds\n" +
+            App.getLanguage("gameInfo.kills") + "  : " + player.getKills() + "\n" +
+            App.getLanguage("gameInfo.score") + "  : " + score + "\n";
     }
 }

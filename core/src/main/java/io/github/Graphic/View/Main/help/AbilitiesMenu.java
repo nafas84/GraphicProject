@@ -40,7 +40,7 @@ public class AbilitiesMenu implements Screen {
     public void show() {
         Gdx.input.setInputProcessor(stage);
 
-        table.add(new Label("Ability Information", TillDown.getSkin(), "title")).colspan(3).padBottom(30);
+        table.add(new Label(App.getLanguage("title.ability"), TillDown.getSkin(), "title")).colspan(3).padBottom(30);
         table.row();
 
         for (Ability ability : Ability.values()) {

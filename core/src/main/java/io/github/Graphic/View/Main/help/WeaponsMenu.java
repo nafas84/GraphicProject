@@ -40,7 +40,7 @@ public class WeaponsMenu implements Screen {
     public void show() {
         Gdx.input.setInputProcessor(stage);
 
-        table.add(new Label("Weapon Information", TillDown.getSkin(), "title")).colspan(3).padBottom(30);
+        table.add(new Label(App.getLanguage("title.weapon"), TillDown.getSkin(), "title")).colspan(3).padBottom(30);
         table.row();
 
         for (WeaponType weapon : WeaponType.values()) {
@@ -70,10 +70,10 @@ public class WeaponsMenu implements Screen {
         image.setScaling(Scaling.fit);
 
         Label name = new Label(weapon.getName(), skin, "title");
-        Label damage = new Label("Damage: " + weapon.getDamage(), skin);
-        Label projectile = new Label("Projectiles: " + weapon.getProjectile(), skin);
-        Label reload = new Label("Reload Time: " + weapon.getTimeReload(), skin);
-        Label ammo = new Label("Ammo Max: " + weapon.getAmmoMax(), skin);
+        Label damage = new Label(App.getLanguage("weapon.damage") + " " + weapon.getDamage(), skin);
+        Label projectile = new Label(App.getLanguage("weapon.projectile") + " " + weapon.getProjectile(), skin);
+        Label reload = new Label(App.getLanguage("weapon.reloadTime") + " " + weapon.getTimeReload(), skin);
+        Label ammo = new Label(App.getLanguage("weapon.ammo") + " " + weapon.getAmmoMax(), skin);
 
         card.add(image).size(150, 150).colspan(2).pad(10);
         card.row();
