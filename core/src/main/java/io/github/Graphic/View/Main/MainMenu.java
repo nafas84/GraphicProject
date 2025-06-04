@@ -12,10 +12,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import io.github.Graphic.Controller.MainMenuController;
 import io.github.Graphic.Model.App;
 import io.github.Graphic.TillDown;
 import io.github.Graphic.View.Main.help.HelpMenu;
-import io.github.Graphic.View.ScoreboardMenu;
 import io.github.Graphic.View.Start.StartMenu;
 
 public class MainMenu implements Screen {
@@ -73,7 +73,12 @@ public class MainMenu implements Screen {
                     result.setText(App.getLanguage("main.error.login"));
                     result.setColor(Color.RED);
                 } else {
-                    //TillDown.getGame().setScreen(new LoginMenu());
+                    if (!App.getCurrentUser().hasSavedGame()) {
+                        result.setText(App.getLanguage("main.error.game"));
+                        result.setColor(Color.RED);
+                    } else {
+                        MainMenuController.loadGame();
+                    }
                 }
             }
         });

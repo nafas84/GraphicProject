@@ -13,19 +13,19 @@ public class Player {
     private final Hero hero;
     private final Weapon weapon;
 
-    private float x = (float) Gdx.graphics.getWidth() / 2;
-    private float y =  (float) Gdx.graphics.getWidth() / 2;
+    private float x;
+    private float y;
 
     private float time = 0;
 
     private boolean isInvincible = false;
     private float invincibleTimeRemaining = 0f;
 
-    private int xp = 0;
-    private int hp = 100;
+    private int xp;
+    private int hp;
     private int life;
-    private int kills = 0;
-    private int level = 1;
+    private int kills;
+    private int level;
 
     private final HashMap<Ability, Float> abilities = new HashMap<>();
 
@@ -39,6 +39,31 @@ public class Player {
         this.weapon = weapon;
 
         this.life = hero.getType().getBaseLife();
+
+        this.x = (float) Gdx.graphics.getWidth() / 2;
+        this.y = (float) Gdx.graphics.getWidth() / 2;
+        this.xp  = 0;
+        this.hp = 100;
+        this.kills = 0;
+        this.level = 1;
+    }
+
+    public Player(Hero hero, Weapon weapon,
+                  int id, float x, float y,
+                int xp, int hp, int kill, int level) {
+        this.id = id;
+
+        this.hero = hero;
+        this.weapon = weapon;
+
+        this.life = hero.getType().getBaseLife();
+
+        this.x = x;
+        this.y = y;
+        this.xp  = xp;
+        this.hp = hp;
+        this.kills = kill;
+        this.level = level;
     }
 
     // Update methods:

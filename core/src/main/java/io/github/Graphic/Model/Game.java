@@ -12,13 +12,23 @@ public class Game {
     private float timeRemaining; //
 
     private final Player player;
-    private final List<Monster> monsters = new ArrayList<>();
-    private final List<Seed> seeds = new ArrayList<>();
+    private List<Monster> monsters = new ArrayList<>();
+    private List<Seed> seeds = new ArrayList<>();
 
     public Game(Player player, int time) {
         this.totalTime = time * 60;
         this.timeRemaining = time * 60;
         this.player = player;
+    }
+
+    public Game(Player player, float totalTime, float timeRemaining,
+                List<Monster> monsters,
+                List<Seed> seeds) {
+        this.player = player;
+        this.totalTime = totalTime;
+        this.timeRemaining = timeRemaining;
+        this.monsters = monsters;
+        this.seeds = seeds;
     }
 
     public void updateTime(float deltaTime) {

@@ -163,7 +163,11 @@ public class GameView implements Screen, InputProcessor {
                             }
                             break;
                         case "save & exit":
-                            // reset game save & exit
+                            try {
+                                GameController.saveGame();
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
                             TillDown.getGame().setScreen(new MainMenu());
                             break;
                     }

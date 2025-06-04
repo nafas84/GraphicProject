@@ -1,4 +1,4 @@
-package io.github.Graphic.View;
+package io.github.Graphic.View.Main;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -17,7 +17,6 @@ import com.google.gson.Gson;
 import io.github.Graphic.Model.App;
 import io.github.Graphic.Model.User;
 import io.github.Graphic.TillDown;
-import io.github.Graphic.View.Main.MainMenu;
 
 import java.io.File;
 import java.io.FileReader;

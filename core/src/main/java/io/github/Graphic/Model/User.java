@@ -1,6 +1,7 @@
 package io.github.Graphic.Model;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
@@ -94,5 +95,11 @@ public class User {
             App.getLanguage("signUp.question") + "\t" + this.question + "\n\n" +
             App.getLanguage("signUp.answer") + "\t" + this.answer + "\n\n" +
             App.getLanguage("signUp.score") + "\t" + this.totalScore + "\n\n";
+    }
+
+    public boolean hasSavedGame() {
+        String path = "data/users/" + id + "/Game.json";
+        FileHandle file = Gdx.files.local(path);
+        return file.exists();
     }
 }

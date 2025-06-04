@@ -2,14 +2,21 @@ package io.github.Graphic.Controller;
 
 import com.google.gson.Gson;
 import io.github.Graphic.Model.*;
+import io.github.Graphic.Model.SaveData.GameData;
+import io.github.Graphic.Model.SaveData.MonsterData;
+import io.github.Graphic.Model.SaveData.PlayerData;
+import io.github.Graphic.Model.SaveData.SeedData;
 import io.github.Graphic.Model.enums.HeroType;
 import io.github.Graphic.Model.enums.WeaponType;
 import io.github.Graphic.TillDown;
 import io.github.Graphic.View.GameView;
 
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainMenuController {
     public static void appSetting(String music, float volume,
@@ -118,5 +125,57 @@ public class MainMenuController {
             }
         }
         return null;
+    }
+
+    public static void loadGame() {
+        GameData gameData = getGameData();
+        if (gameData == null)
+            throw new RuntimeException("game data not found!");
+
+        float totalTime = gameData.getTotalTime();
+        float remainingTime = gameData.getRemainingTime();
+
+        // make player:
+        PlayerData playerData = gameData.getPlayerData();
+
+        Hero hero = new Hero(playerData.getHeroType());
+        Weapon weapon = new Weapon(playerData.getWeaponType());
+
+        Player player = new Player(hero, weapon,
+            playerData.getId(), playerData.getX(), playerData.getY(),
+            playerData.getXp(), playerData.getHp(), playerData.getKill(), playerData.getLevel());
+
+        // make monsters:
+        List<MonsterData> monsterDataList = gameData.getMonsterDataList();
+        List<Monster> monsters = new ArrayList<>();
+
+        for (MonsterData data: monsterDataList) {
+            monsters.add(new Monster(data.getType(), data.getX(), data.getY()));
+        }
+
+        // make seeds:
+        List<SeedData> seedDataList = gameData.getSeedDataList();
+        List<Seed> seeds = new ArrayList<>();
+
+        for (SeedData data: seedDataList) {
+            seeds.add(new Seed(data.getX(), data.getY()));
+        }
+
+        Game game = new Game(player, totalTime, remainingTime, monsters, seeds);
+
+        App.setGame(game);
+        TillDown.getGame().setScreen(new GameView(new GameController()));
+    }
+
+    private static GameData getGameData() {
+        File file = new File("data/users/" + App.getCurrentUser().getId() + "/Game.json");
+
+        try (FileReader reader = new FileReader(file)) {
+            Gson gson = new Gson();
+            return gson.fromJson(reader, GameData.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

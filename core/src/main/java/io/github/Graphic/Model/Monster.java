@@ -26,22 +26,6 @@ public class Monster {
 
     private final MonsterType type;
 
-    public float getDashTimeRemaining() {
-        return dashTimeRemaining;
-    }
-
-    public void setDashTimeRemaining(float dashTimeRemaining) {
-        this.dashTimeRemaining = dashTimeRemaining;
-    }
-
-    public boolean isDashing() {
-        return isDashing;
-    }
-
-    public void setDashing(boolean dashing) {
-        isDashing = dashing;
-    }
-
     // TIME: (Dash/Shoot)
     private float lastHandleTime = 0; // for dash(5second) and shoot(3second)
     private float dashTimeRemaining = 0f;
@@ -96,6 +80,22 @@ public class Monster {
             sprite.getWidth(),
             sprite.getHeight()
         );
+    }
+
+    public float getDashTimeRemaining() {
+        return dashTimeRemaining;
+    }
+
+    public void setDashTimeRemaining(float dashTimeRemaining) {
+        this.dashTimeRemaining = dashTimeRemaining;
+    }
+
+    public boolean isDashing() {
+        return isDashing;
+    }
+
+    public void setDashing(boolean dashing) {
+        isDashing = dashing;
     }
 
     public void setDying(boolean dying) {

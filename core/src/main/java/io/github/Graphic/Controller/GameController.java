@@ -7,12 +7,20 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.google.gson.Gson;
 import io.github.Graphic.Model.*;
+import io.github.Graphic.Model.SaveData.GameData;
+import io.github.Graphic.Model.SaveData.MonsterData;
+import io.github.Graphic.Model.SaveData.PlayerData;
+import io.github.Graphic.Model.SaveData.SeedData;
 import io.github.Graphic.Model.enums.MonsterType;
 import io.github.Graphic.TillDown;
 import io.github.Graphic.View.*;
 
+import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class GameController {
@@ -121,11 +129,6 @@ public class GameController {
 
         // initializeMonsters(Tree):
         randomTrees();
-//        App.getGame().getMonsters().add(new Monster(MonsterType.Tree, 1200, 960));
-//        App.getGame().getMonsters().add(new Monster(MonsterType.Lamprey, 800, 900));
-//        App.getGame().getMonsters().add(new Monster(MonsterType.Yog, 900, 1200));
-//        App.getGame().getMonsters().add(new Monster(MonsterType.EyeBat, 500, 1000));
-
     }
 
     private static void randomTrees() {
@@ -142,5 +145,40 @@ public class GameController {
         App.setIsSfx(sound);
         App.setIsAutoReload(autoReload);
         App.setGrayscale(grayScale);
+    }
+
+    public static void saveGame() throws IOException {
+        // make game data:
+        Game game = App.getGame();
+        Player player = game.getPlayer();
+
+        float totalTime = game.getTotalTime();
+        float remainingTime = game.getTimeRemaining();
+
+        PlayerData playerData = new PlayerData(player.getId(), player.getHero().getType(),
+            player.getWeapon().getType(),
+            player.getX(), player.getY(),
+            player.getXp(), player.getHp(),
+            player.getLife(), player.getKills(),
+            player.getLevel());
+
+        List<SeedData> seedDataList = new ArrayList<>();
+        for (Seed seed: game.getSeeds()) {
+            seedDataList.add(new SeedData(seed.getSprite().getX(), seed.getSprite().getY()));
+        }
+
+        List<MonsterData> monsterDataList = new ArrayList<>();
+        for (Monster monster: game.getMonsters()) {
+            monsterDataList.add(new MonsterData(monster.getX(), monster.getY(), monster.getType()));
+        }
+
+        // now save it to json:
+        GameData gameData = new GameData(totalTime, remainingTime,
+            playerData, seedDataList, monsterDataList);
+
+        Gson gson = new Gson();
+        FileWriter writer = new FileWriter("data/users/" + player.getId() + "/Game.json");
+        gson.toJson(gameData, writer);
+        writer.close();
     }
 }
