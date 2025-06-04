@@ -132,18 +132,12 @@ public class WeaponController {
             for (Monster monster : App.getGame().getMonsters()) {
                 if (!monster.getType().equals(MonsterType.Tree) && bullet.getRect().collidesWith(monster.getRect())) {
                     monster.updateHp(-App.getGame().getPlayer().getWeapon().getDamage());
+                    handleKnockBack(monster, bullet);
+                    // kill monster:
                     if (monster.getHp() <= 0) {
                         player.updateKills(1);
                         toRemovedMonsters.add(monster);
-                        App.getGame().getSeeds().add(new Seed(monster.getSprite().getX(), monster.getSprite().getY()));
-                        if (monster.getType().equals(MonsterType.Yog)) {
-                            App.getGame().getSeeds().add(new Seed(monster.getSprite().getX() + 5, monster.getSprite().getY() + 5));
-                            App.getGame().getSeeds().add(new Seed(monster.getSprite().getX() + -5, monster.getSprite().getY() + -5));
-                            App.getGame().getSeeds().add(new Seed(monster.getSprite().getX() + -10, monster.getSprite().getY() + 5));
-                            App.getGame().getSeeds().add(new Seed(monster.getSprite().getX() + -10, monster.getSprite().getY() + 10));
-                        } else if (monster.getType().equals(MonsterType.EyeBat)) {
-                            App.getGame().getSeeds().add(new Seed(monster.getSprite().getX() + 5, monster.getSprite().getY() + 5));
-                        }
+                        handleSeed(monster);
                     }
                     toRemoveBullets.add(bullet);
                     break;
@@ -155,5 +149,35 @@ public class WeaponController {
         App.getGame().getMonsters().removeAll(toRemovedMonsters);
     }
 
+    private void handleSeed(Monster monster) {
+        App.getGame().getSeeds().add(new Seed(monster.getSprite().getX(), monster.getSprite().getY()));
+        if (monster.getType().equals(MonsterType.Yog)) {
+            App.getGame().getSeeds().add(new Seed(monster.getSprite().getX() + 5, monster.getSprite().getY() + 5));
+            App.getGame().getSeeds().add(new Seed(monster.getSprite().getX() + -5, monster.getSprite().getY() + -5));
+            App.getGame().getSeeds().add(new Seed(monster.getSprite().getX() + -10, monster.getSprite().getY() + 5));
+            App.getGame().getSeeds().add(new Seed(monster.getSprite().getX() + -10, monster.getSprite().getY() + 10));
+        } else if (monster.getType().equals(MonsterType.EyeBat)) {
+            App.getGame().getSeeds().add(new Seed(monster.getSprite().getX() + 5, monster.getSprite().getY() + 5));
+        }
+    }
 
+    private void handleKnockBack(Monster monster, Bullet bullet) {
+        float dx = monster.getX() - bullet.getX();
+        float dy = monster.getY() - bullet.getY();
+
+        float length = (float) Math.sqrt(dx * dx + dy * dy);
+        if (length != 0) {
+            dx /= length;
+            dy /= length;
+        }
+
+        float knockbackStrength = 10f + App.getGame().getPlayer().getWeapon().getDamage();
+        float newX = monster.getX() + dx * knockbackStrength;
+        float newY = monster.getY() + dy * knockbackStrength;
+
+        monster.setX(newX);
+        monster.setY(newY);
+        monster.getSprite().setPosition(newX, newY);
+        monster.getRect().move(newX, newY);
+    }
 }
