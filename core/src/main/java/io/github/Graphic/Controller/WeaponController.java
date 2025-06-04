@@ -88,6 +88,10 @@ public class WeaponController {
 
                 bullets.add(new Bullet(adjustedTargetX, adjustedTargetY));
             }
+
+            if (App.isIsSfx())
+                App.getSoundSingleShot().play();
+
             weapon.updateAmmo(-1);
 
             if (weapon.getAmmo() == 0 && App.isIsAutoReload())

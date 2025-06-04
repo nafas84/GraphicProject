@@ -34,6 +34,7 @@ public class EndGameMenu implements Screen {
     private final TextButton exit, backButton;
 
     public EndGameMenu (int state) throws IOException {
+        App.getSoundWastelandCombat().dispose();
         updateGameInfoToUser();
         //TODO: language
         String result = "";

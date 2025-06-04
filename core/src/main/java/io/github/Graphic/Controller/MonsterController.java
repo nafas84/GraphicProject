@@ -93,15 +93,22 @@ public class MonsterController {
 
             Monster monster = new Monster(MonsterType.Yog, spawnPos.x, spawnPos.y);
             App.getGame().getMonsters().add(monster);
+
+            if (App.isIsSfx())
+                App.getSoundWastelandCombat().play();
         }
     }
 
     public void cheatBossFight() {
-        isYogSpawned = true;
-        Vector2 spawnPos = generateRandomSpawnPosition();
+        if (!isYogSpawned) {
+            isYogSpawned = true;
+            Vector2 spawnPos = generateRandomSpawnPosition();
 
-        Monster monster = new Monster(MonsterType.Yog, spawnPos.x, spawnPos.y);
-        App.getGame().getMonsters().add(monster);
+            Monster monster = new Monster(MonsterType.Yog, spawnPos.x, spawnPos.y);
+            App.getGame().getMonsters().add(monster);
+            if (App.isIsSfx())
+                App.getSoundWastelandCombat().play();
+        }
     }
 
     private Vector2 generateRandomSpawnPosition() {
@@ -214,6 +221,10 @@ public class MonsterController {
                 player.updateHp(-b.getMonsterDamage());
                 GameController.setWarning(App.getLanguage("game.damage"));
                 toRemoveBullets.add(b);
+
+                if (App.isIsSfx())
+                    App.getSoundAhmagh().play();
+                
                 break;
             }
         }

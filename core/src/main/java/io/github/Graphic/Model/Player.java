@@ -48,6 +48,8 @@ public class Player {
     }
 
     public void updateLevel() {
+        if (App.isIsSfx())
+            App.getSoundLevelUp().play();
         this.level += 1;
         Ability ability = Ability.getRandom();
         abilities.put(ability, ability.getTime());

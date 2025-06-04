@@ -174,14 +174,20 @@ public class PlayerController {
                 player.updateHp(-10);
                 player.setInvincible(true);
                 player.setInvincibleTimeRemaining(1f);
+
+                if (App.isIsSfx())
+                    App.getSoundAhmagh().play();
             }
         }
-        // handle collision player with seeds(bahman hashemi):
+        // handle collision player with points(bahman hashemi):
         List<Seed> toRemovedSeeds = new ArrayList<>();
         for (Seed seed: App.getGame().getSeeds()) {
             if (player.getHero().getRect().collidesWith(seed.getRect())) {
                 toRemovedSeeds.add(seed);
                 player.updateXp(5);
+                if (App.isIsSfx())
+                    App.getSoundObtainPoints().play();
+
             }
         }
 

@@ -2,9 +2,11 @@ package io.github.Graphic.Model;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.I18NBundle;
 import com.google.gson.Gson;
 
@@ -18,13 +20,18 @@ public class App {
     private static User currentUser;
     private static Game Game;
 
-    // setting:
+    // language:
     private static I18NBundle bundle;
     private static String languageName = "English";// English , Italian, French
     private static final KeyManager keyManager = new KeyManager();
 
-    private static boolean isSfx = true;
     private static boolean isAutoReload = true;
+
+    // sfx:
+    private static boolean isSfx = true;
+    private static final Sound singleShot, wastelandCombat,
+        obtainPoints1, obtainPoints2, obtainPoints3, obtainPoints4, obtainPoints5, obtainPoints6,
+        levelUp, ahmagh;
 
     // grayscale:
     private static boolean grayscale = false;
@@ -52,6 +59,52 @@ public class App {
 
         }
         sharedBatch.setShader(grayscaleShader);
+    }
+
+    static {
+        singleShot = Gdx.audio.newSound(Gdx.files.internal("assets/sfx/single_shot.wav"));
+        wastelandCombat = Gdx.audio.newSound(Gdx.files.internal("assets/sfx/Wasteland_Combat.wav"));
+
+        obtainPoints1 = Gdx.audio.newSound(Gdx.files.internal("assets/sfx/Obtain_Points_01.wav"));
+        obtainPoints2 = Gdx.audio.newSound(Gdx.files.internal("assets/sfx/Obtain_Points_02.wav"));
+        obtainPoints3 = Gdx.audio.newSound(Gdx.files.internal("assets/sfx/Obtain_Points_03.wav"));
+        obtainPoints4 = Gdx.audio.newSound(Gdx.files.internal("assets/sfx/Obtain_Points_04.wav"));
+        obtainPoints5 = Gdx.audio.newSound(Gdx.files.internal("assets/sfx/Obtain_Points_05.wav"));
+        obtainPoints6 = Gdx.audio.newSound(Gdx.files.internal("assets/sfx/Obtain_Points_06.wav"));
+
+        levelUp = Gdx.audio.newSound(Gdx.files.internal("assets/sfx/levelUp.wav"));
+        ahmagh = Gdx.audio.newSound(Gdx.files.internal("assets/sfx/Ahmagh.wav"));
+
+    }
+
+    public static Sound getSoundSingleShot() {
+        return singleShot;
+    }
+
+    public static Sound getSoundWastelandCombat() {
+        return wastelandCombat;
+    }
+
+    public static Sound getSoundObtainPoints() {
+        int number = MathUtils.random(1, 6);
+
+        switch (number) {
+            case 1: return obtainPoints1;
+            case 2: return obtainPoints2;
+            case 3: return obtainPoints3;
+            case 4: return obtainPoints4;
+            case 5: return obtainPoints5;
+            case 6: return obtainPoints6;
+            default: return obtainPoints1;
+        }
+    }
+
+    public static Sound getSoundLevelUp() {
+        return levelUp;
+    }
+
+    public static Sound getSoundAhmagh() {
+        return ahmagh;
     }
 
     public static ShaderProgram getShader() {
