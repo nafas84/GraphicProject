@@ -237,7 +237,7 @@ public class Player {
     public String getUsername() {
         try {
             File folder = new File("data/users/" + id);
-            File[] files = folder.listFiles((dir, name) -> name.endsWith(".json"));
+            File[] files = folder.listFiles((dir, name) -> name.endsWith(".json") && !name.equalsIgnoreCase("Game.json"));
 
             if (files == null || files.length == 0) return null;
 
@@ -248,6 +248,7 @@ public class Player {
             return null;
         }
     }
+
 
     public HashMap<Ability, Float> getAbilities() {
         return abilities;

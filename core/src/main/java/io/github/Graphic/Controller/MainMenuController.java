@@ -157,9 +157,9 @@ public class MainMenuController {
         List<SeedData> seedDataList = gameData.getSeedDataList();
         List<Seed> seeds = new ArrayList<>();
 
-        //App.setGame(new Game(player, 2)); TODO:
+        App.setGame(new Game(player, 2)); TODO:
         for (SeedData data: seedDataList) {
-            //seeds.add(new Seed(data.getX(), data.getY()));
+            seeds.add(new Seed(data.getX(), data.getY()));
         }
 
         Game game = new Game(player, totalTime, remainingTime, monsters, seeds);
