@@ -1,5 +1,9 @@
 package io.github.Graphic.Model;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+
 import java.util.ArrayList;
 import java.util.List;
 

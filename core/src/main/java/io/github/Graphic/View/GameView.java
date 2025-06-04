@@ -135,7 +135,7 @@ public class GameView implements Screen, InputProcessor {
         CheckBox colorCheckbox = new CheckBox(" " + App.getLanguage("setting.color"), skin);
         colorCheckbox.setChecked(App.isGrayscale());
         table.add(colorCheckbox).pad(10).row();
-        
+
         Dialog pauseDialog = new Dialog("Pause", skin, "round") {
             @Override
             protected void result(Object object) {

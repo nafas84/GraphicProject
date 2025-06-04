@@ -22,7 +22,7 @@ public class GameAssetManager {
             textures.put(assetType, texture);
             sprites.put(assetType, new Sprite(texture));
             // load animations
-            if (assetType.equals(AssetType.IdleHero) || assetType.equals(AssetType.RunHero)) {
+            if (assetType.equals(AssetType.IdleHero) || assetType.equals(AssetType.RunHero) || assetType.equals(AssetType.HoleyShield)) {
                 loadAnimation(assetType);
             }
         }
@@ -49,17 +49,26 @@ public class GameAssetManager {
     }
 
     public void loadAnimation(AssetType assetType) {
-        Player player = App.getGame().getPlayer();
-        String path = (assetType.equals(AssetType.IdleHero)) ? player.getHero().getAssetFolderPath() + "/idle/Idle_" : player.getHero().getAssetFolderPath() + "/run/Run_";
-        int frameCounter = (assetType.equals(AssetType.IdleHero)) ? 6 : 4;
+        if (!assetType.equals(AssetType.HoleyShield)) {
+            Player player = App.getGame().getPlayer();
+            String path = (assetType.equals(AssetType.IdleHero)) ? player.getHero().getAssetFolderPath() + "/idle/Idle_" : player.getHero().getAssetFolderPath() + "/run/Run_";
+            int frameCounter = (assetType.equals(AssetType.IdleHero)) ? 6 : 4;
 
-        Texture[] frames = new Texture[frameCounter];
-        for (int i = 0; i < frameCounter; i++) {
-            frames[i] = new Texture(Gdx.files.internal(path + i + ".png"));
+            Texture[] frames = new Texture[frameCounter];
+            for (int i = 0; i < frameCounter; i++) {
+                frames[i] = new Texture(Gdx.files.internal(path + i + ".png"));
+            }
+            animations.put(assetType, new Animation<>(0.1f, frames));
+        } else {
+            String path = "assets/etc/HolyShield/HolyShield_";
+            int frameCounter = 7;
+
+            Texture[] frames = new Texture[frameCounter];
+            for (int i = 0; i < frameCounter; i++) {
+                frames[i] = new Texture(Gdx.files.internal(path + i + ".png"));
+            }
+            animations.put(assetType, new Animation<>(0.1f, frames));
         }
-        animations.put(assetType, new Animation<>(0.1f, frames));
-
-        //TODO: frameDuration?
     }
 
     private String getPath(AssetType assetType) {
@@ -89,6 +98,9 @@ public class GameAssetManager {
                 break;
             case Seed:
                 result = "assets/etc/BahmanHashemi.png";
+                break;
+            case HoleyShield:
+                result = "assets/etc/HolyShield/HolyShield_0.png";
                 break;
             default:
                 throw new IllegalArgumentException("Invalid assetType for getTexture/sprite(GameAssetManager)!");

@@ -218,13 +218,14 @@ public class MonsterController {
 
             // update collision with player:
             if (b.getRect().collidesWith(player.getHero().getRect())) {
+                player.playerHit();
                 player.updateHp(-b.getMonsterDamage());
                 GameController.setWarning(App.getLanguage("game.damage"));
                 toRemoveBullets.add(b);
 
                 if (App.isIsSfx())
                     App.getSoundAhmagh().play();
-                
+
                 break;
             }
         }

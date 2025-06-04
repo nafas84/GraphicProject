@@ -13,6 +13,10 @@ public class Hero {
     private Animation<Texture> idleAnimation;
     private Animation<Texture> runAnimation;
 
+    // holy shield:
+    private Sprite holeyShieldSprite;
+    private Animation<Texture> holeyShieldAnimation;
+
     private final HeroType type;
     private boolean isIdle = true;
 
@@ -32,6 +36,7 @@ public class Hero {
         idleAnimation = new Animation<>(0.1f, idleFrames.clone());
         runAnimation = new Animation<>(0.1f, runFrames.clone());
 
+        // initialize position:
         Texture texture = GameAssetManager.getGameAssetManager().getTexture(AssetType.IdleHero);
         idleSprite.setPosition((float) Gdx.graphics.getWidth() / 2, (float) Gdx.graphics.getHeight() / 2);
         idleSprite.setSize(texture.getWidth() * 3, texture.getHeight() * 3);
@@ -40,6 +45,15 @@ public class Hero {
         runSprite.setPosition((float) Gdx.graphics.getWidth() / 2, (float) Gdx.graphics.getHeight() / 2);
         runSprite.setSize(textureRun.getWidth() * 3, textureRun.getHeight() * 3);
 
+        // Holey Shield:
+        holeyShieldSprite = new Sprite(GameAssetManager.getGameAssetManager().getTexture(AssetType.HoleyShield));
+
+        Texture[] shieldFrames = GameAssetManager.getGameAssetManager().getAnimation(AssetType.HoleyShield).getKeyFrames();
+        holeyShieldAnimation = new Animation<>(0.1f, shieldFrames.clone());
+
+        Texture textureShield = GameAssetManager.getGameAssetManager().getTexture(AssetType.HoleyShield);
+        holeyShieldSprite.setPosition((float) Gdx.graphics.getWidth() / 2, (float) Gdx.graphics.getHeight() / 2);
+        holeyShieldSprite.setSize(textureShield.getWidth() * 4, textureShield.getHeight() * 4);
 
         // initialize rect:
         rect = new CollisionRect(
@@ -48,6 +62,14 @@ public class Hero {
             idleSprite.getWidth(),
             idleSprite.getHeight()
         );
+    }
+
+    public Sprite getHoleyShieldSprite() {
+        return holeyShieldSprite;
+    }
+
+    public Animation<Texture> getHoleyShieldAnimation() {
+        return holeyShieldAnimation;
     }
 
     public Sprite getSprite() {

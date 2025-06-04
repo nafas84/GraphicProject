@@ -29,6 +29,9 @@ public class Player {
 
     private final HashMap<Ability, Float> abilities = new HashMap<>();
 
+    private boolean hit = false;
+    private float shieldHitTime = 0f;
+
     public Player(Hero hero, Weapon weapon, int id) {
         this.id = id;
 
@@ -77,6 +80,28 @@ public class Player {
     public int getXpNeedLevelUp() {
         return this.level * 20;
     }
+
+    public void playerHit() {
+        hit = true;
+        shieldHitTime = 0f;
+    }
+
+    public float getShieldHitTime() {
+        return shieldHitTime;
+    }
+
+    public boolean isHit() {
+        return hit;
+    }
+
+    public void setHit(boolean hit) {
+        this.hit = hit;
+    }
+
+    public void setShieldHitTime(float shieldHitTime) {
+        this.shieldHitTime = shieldHitTime;
+    }
+
     // getter for  types:(for ability)
     public int getMaxHP() {
         int zarib = 0;

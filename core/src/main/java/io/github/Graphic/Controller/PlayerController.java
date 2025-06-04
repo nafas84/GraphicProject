@@ -36,6 +36,8 @@ public class PlayerController {
     public void update() throws IOException {
         player.getHero().getSprite().draw(TillDown.getBatch());
 
+        player.getHero().getHoleyShieldSprite().draw(TillDown.getBatch());
+
         handleAnimation();
         handlePlayerInput();
         handleCollision();
@@ -148,11 +150,19 @@ public class PlayerController {
         player.getHero().getSprite().setPosition(newX, newY);
         player.getHero().getRect().move(newX, newY);
 
+        float shieldX = newX + player.getHero().getSprite().getWidth() / 2f
+            - player.getHero().getHoleyShieldSprite().getWidth() / 2f;
+        float shieldY = newY + player.getHero().getSprite().getHeight() / 2f
+            - player.getHero().getHoleyShieldSprite().getHeight() / 2f;
+
+        player.getHero().getHoleyShieldSprite().setPosition(shieldX, shieldY);
+
         // status
         player.setIdle(!isMoving);
     }
 
     private void handleAnimation(){
+        handleShieldAnimation();
         Animation<Texture> animation = App.getGame().getPlayer().getHero().getAnimation();
 
         player.getHero().getSprite().setRegion(animation.getKeyFrame(player.getTime()));
@@ -166,10 +176,31 @@ public class PlayerController {
         animation.setPlayMode(Animation.PlayMode.LOOP);
     }
 
+    private void handleShieldAnimation() {
+        Animation<Texture> animation = App.getGame().getPlayer().getHero().getHoleyShieldAnimation();
+        player.getHero().getHoleyShieldSprite().setRegion(animation.getKeyFrame(player.getTime()));
+
+        // handle damage color
+        if (player.isHit()) {
+            player.setShieldHitTime(player.getShieldHitTime() + Gdx.graphics.getDeltaTime());
+            player.getHero().getHoleyShieldSprite().setColor(0.949f, 0.314f, 0.431f, 1f);
+
+            if (player.getShieldHitTime() >= 0.5) {
+                player.setHit(false);
+                player.getHero().getHoleyShieldSprite().setColor(1, 1, 1, 1);
+            }
+        } else {
+            player.getHero().getHoleyShieldSprite().setColor(1, 1, 1, 1);
+        }
+
+        animation.setPlayMode(Animation.PlayMode.LOOP);
+    }
+
     private void handleCollision() {
         // handle collision player with monsters: -10HP
         for (Monster monster: App.getGame().getMonsters()) {
             if (player.getHero().getRect().collidesWith(monster.getRect()) && !player.isInvincible()) {
+                player.playerHit();
                 GameController.setWarning(App.getLanguage("game.collision"));
                 player.updateHp(-10);
                 player.setInvincible(true);

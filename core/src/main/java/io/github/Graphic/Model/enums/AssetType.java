@@ -8,5 +8,6 @@ public enum AssetType {
     Weapon, // fixed (assetPath)
     BackGround, // fixed (assetEtcPath)
     Seed,
+    HoleyShield,
 
 }
