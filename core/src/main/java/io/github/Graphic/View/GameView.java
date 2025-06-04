@@ -6,10 +6,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import io.github.Graphic.Controller.GameController;
@@ -58,7 +55,7 @@ public class GameView implements Screen, InputProcessor {
 
     @Override
     public void show() {
-        stage = new Stage(new ScreenViewport());
+        stage = new Stage(new ScreenViewport(), App.getSharedBatch());
         table.setFillParent(true);
         table.top().left();
         stage.addActor(table);
@@ -90,6 +87,11 @@ public class GameView implements Screen, InputProcessor {
 
             // update camera
             updateCamera();
+
+            // set shader
+            TillDown.getBatch().setShader(App.getShader());
+            App.getShader().setUniformi("u_grayscale", App.isGrayscale() ? 1 : 0);
+
             // update game
             TillDown.getBatch().begin();
             try {
@@ -100,6 +102,7 @@ public class GameView implements Screen, InputProcessor {
             TillDown.getBatch().end();
         }
 
+        App.getShader().setUniformi("u_grayscale", App.isGrayscale() ? 1 : 0);
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();
     }
@@ -129,12 +132,17 @@ public class GameView implements Screen, InputProcessor {
         Skin skin = TillDown.getSkin();
         Table table = getTableDialog();
 
+        CheckBox colorCheckbox = new CheckBox(" " + App.getLanguage("setting.color"), skin);
+        colorCheckbox.setChecked(App.isGrayscale());
+        table.add(colorCheckbox).pad(10).row();
+        
         Dialog pauseDialog = new Dialog("Pause", skin, "round") {
             @Override
             protected void result(Object object) {
                 if (object instanceof String) {
                     switch ((String) object) {
                         case "resume":
+                            App.setGrayscale(colorCheckbox.isChecked());
                             paused = false;
                             break;
                         case "give up":

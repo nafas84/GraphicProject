@@ -39,7 +39,7 @@ public class MainMenu implements Screen {
         this.logoutButton = new TextButton(App.getLanguage("button.logout"), skin);
 
         table = new Table();
-        stage = new Stage(new ScreenViewport());
+        stage = new Stage(new ScreenViewport(), App.getSharedBatch());
 
     }
 
@@ -118,6 +118,7 @@ public class MainMenu implements Screen {
     @Override
     public void render(float delta) {
         ScreenUtils.clear(0, 0, 0, 1);
+        App.getShader().setUniformi("u_grayscale", App.isGrayscale() ? 1 : 0);
         stage.act(delta);
         stage.draw();
     }

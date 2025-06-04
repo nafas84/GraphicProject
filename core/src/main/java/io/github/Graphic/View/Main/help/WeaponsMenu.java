@@ -27,7 +27,7 @@ public class WeaponsMenu implements Screen {
         this.where = where;
 
         Skin skin = TillDown.getSkin();
-        stage = new Stage(new ScreenViewport());
+        stage = new Stage(new ScreenViewport(), App.getSharedBatch());
         table = new Table();
         backButton = new TextButton(App.getLanguage("button.back"), skin);
 
@@ -92,6 +92,7 @@ public class WeaponsMenu implements Screen {
     @Override
     public void render(float delta) {
         ScreenUtils.clear(0, 0, 0, 1);
+        App.getShader().setUniformi("u_grayscale", App.isGrayscale() ? 1 : 0);
         stage.act(delta);
         stage.draw();
     }

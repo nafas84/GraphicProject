@@ -42,7 +42,7 @@ public class ForgetPasswordMenu implements Screen {
         backButton = new TextButton(App.getLanguage("button.back"), skin);
 
         table = new Table();
-        stage = new Stage(new ScreenViewport());
+        stage = new Stage(new ScreenViewport(), App.getSharedBatch());
     }
 
     @Override
@@ -88,6 +88,7 @@ public class ForgetPasswordMenu implements Screen {
     @Override
     public void render(float delta) {
         ScreenUtils.clear(0, 0, 0, 1);
+        App.getShader().setUniformi("u_grayscale", App.isGrayscale() ? 1 : 0);
         stage.act(delta);
         stage.draw();
     }

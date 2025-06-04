@@ -60,13 +60,13 @@ public class SettingMenu implements Screen {
         autoReloadCheckbox.setChecked(App.isIsAutoReload());
 
         colorCheckbox = new CheckBox(" " + App.getLanguage("setting.color"), skin);
-        colorCheckbox.setChecked(App.isIsColored());
+        colorCheckbox.setChecked(App.isGrayscale());
 
         volumeSlider = new Slider(0f, 1f, 0.01f, false, skin);
         volumeSlider.setValue(App.getMusicVolume());
 
         table = new Table();
-        stage = new Stage(new ScreenViewport());
+        stage = new Stage(new ScreenViewport(), App.getSharedBatch());
     }
 
     @Override
@@ -120,6 +120,7 @@ public class SettingMenu implements Screen {
     @Override
     public void render(float delta) {
         ScreenUtils.clear(0, 0, 0, 1);
+        App.getShader().setUniformi("u_grayscale", App.isGrayscale() ? 1 : 0);
         stage.act(delta);
         stage.draw();
     }

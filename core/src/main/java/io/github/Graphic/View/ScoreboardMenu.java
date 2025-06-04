@@ -38,7 +38,7 @@ public class ScoreboardMenu implements Screen {
 
     public ScoreboardMenu() {
         Skin skin = TillDown.getSkin();
-        this.stage = new Stage(new ScreenViewport());
+        this.stage = new Stage(new ScreenViewport(), App.getSharedBatch());
 
         // load users:
         loadUsers();
@@ -216,6 +216,7 @@ public class ScoreboardMenu implements Screen {
     @Override
     public void render(float delta) {
         ScreenUtils.clear(0, 0, 0, 1);
+        App.getShader().setUniformi("u_grayscale", App.isGrayscale() ? 1 : 0);
         stage.act(delta);
         stage.draw();
     }

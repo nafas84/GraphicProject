@@ -20,7 +20,7 @@ public class MainMenuController {
         //TODO:
         App.setIsSfx(sound);
         App.setIsAutoReload(autoReload);
-        App.setIsColored(color);
+        App.setGrayscale(color);
 
         App.setLanguage(language);
     }

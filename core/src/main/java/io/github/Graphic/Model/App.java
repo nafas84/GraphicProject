@@ -3,6 +3,8 @@ package io.github.Graphic.Model;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.utils.I18NBundle;
 import com.google.gson.Gson;
 
@@ -22,8 +24,12 @@ public class App {
     private static final KeyManager keyManager = new KeyManager();
 
     private static boolean isSfx = true;
-    private static boolean isColored = true;
     private static boolean isAutoReload = true;
+
+    // grayscale:
+    private static boolean grayscale = false;
+    private static ShaderProgram grayscaleShader;
+    private static final SpriteBatch sharedBatch = new SpriteBatch();
 
     // music:
     private static float musicVolume = 1f;// 0-1
@@ -36,6 +42,25 @@ public class App {
         bundle = I18NBundle.createBundle(baseFileHandle, defaultLocale);
     }
 
+    static {
+        if (grayscaleShader == null) {
+            ShaderProgram.pedantic = false;
+            grayscaleShader = new ShaderProgram(
+                Gdx.files.internal("assets/shaders/grayscale.vert"),
+                Gdx.files.internal("assets/shaders/grayscale.frag")
+            );
+
+        }
+        sharedBatch.setShader(grayscaleShader);
+    }
+
+    public static ShaderProgram getShader() {
+        return grayscaleShader;
+    }
+
+    public static SpriteBatch getSharedBatch() {
+        return sharedBatch;
+    }
     public static KeyManager getKeyManager() {
         return keyManager;
     }
@@ -59,8 +84,8 @@ public class App {
         App.isSfx = soundEffectEnable;
     }
 
-    public static void setIsColored(boolean isColored) {
-        App.isColored = isColored;
+    public static void setGrayscale(boolean grayscale) {
+        App.grayscale = grayscale;
     }
 
     public static void setIsAutoReload(boolean isAutoReload) {
@@ -182,8 +207,8 @@ public class App {
         return isAutoReload;
     }
 
-    public static boolean isIsColored() {
-        return isColored;
+    public static boolean isGrayscale() {
+        return grayscale;
     }
 
 }
