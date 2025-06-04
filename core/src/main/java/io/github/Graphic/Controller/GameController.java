@@ -137,4 +137,10 @@ public class GameController {
             App.getGame().getMonsters().add(new Monster(MonsterType.Tree, x, y));
         }
     }
+
+    public static void setSetting(boolean grayScale, boolean sound, boolean autoReload){
+        App.setIsSfx(sound);
+        App.setIsAutoReload(autoReload);
+        App.setGrayscale(grayScale);
+    }
 }

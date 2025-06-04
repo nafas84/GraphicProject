@@ -134,7 +134,17 @@ public class GameView implements Screen, InputProcessor {
 
         CheckBox colorCheckbox = new CheckBox(" " + App.getLanguage("setting.color"), skin);
         colorCheckbox.setChecked(App.isGrayscale());
-        table.add(colorCheckbox).pad(10).row();
+
+        CheckBox soundCheckbox = new CheckBox(" " + App.getLanguage("setting.sound"), skin);
+        soundCheckbox.setChecked(App.isIsSfx());
+
+        CheckBox autoReloadCheckbox = new CheckBox(" " + App.getLanguage("setting.autoReload"), skin);
+        autoReloadCheckbox.setChecked(App.isIsAutoReload());
+
+        table.row();
+        table.add(colorCheckbox).pad(10);
+        table.add(soundCheckbox).pad(10);
+        table.add(autoReloadCheckbox).pad(10).row();
 
         Dialog pauseDialog = new Dialog("Pause", skin, "round") {
             @Override
@@ -142,7 +152,7 @@ public class GameView implements Screen, InputProcessor {
                 if (object instanceof String) {
                     switch ((String) object) {
                         case "resume":
-                            App.setGrayscale(colorCheckbox.isChecked());
+                            GameController.setSetting(colorCheckbox.isChecked(), soundCheckbox.isChecked(), autoReloadCheckbox.isChecked());
                             paused = false;
                             break;
                         case "give up":
