@@ -119,7 +119,7 @@ public class GameController {
         return playerController;
     }
 
-    public static void initializeGame() {
+    public static void initializeGame(boolean isFirstTime) {
         // initializeSprites:
         Player player = App.getGame().getPlayer();
         // player:
@@ -128,7 +128,8 @@ public class GameController {
         player.getWeapon().initializeSprite();
 
         // initializeMonsters(Tree):
-        randomTrees();
+        if (isFirstTime)
+            randomTrees();
     }
 
     private static void randomTrees() {
@@ -149,6 +150,7 @@ public class GameController {
 
     public static void saveGame() throws IOException {
         // make game data:
+        App.getSoundWastelandCombat().dispose();
         Game game = App.getGame();
         Player player = game.getPlayer();
 

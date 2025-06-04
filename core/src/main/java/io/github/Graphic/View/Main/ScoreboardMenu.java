@@ -55,7 +55,7 @@ public class ScoreboardMenu implements Screen {
         backButton = new TextButton(App.getLanguage("button.back"), skin);
 
         updateList("Score");
-        // تغییر سورت
+
         sortSelectBox.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -101,15 +101,12 @@ public class ScoreboardMenu implements Screen {
             .sorted(comparator)
             .collect(Collectors.toList());
 
-        // گرفتن 15 نفر اول
         List<User> top15 = sortedUsers.stream().limit(15).collect(Collectors.toList());
 
-        // اگر کاربر فعلی در لیست 15 نفر نبود، اضافه‌ش کن
         if (!top15.contains(currentUser)) {
             top15.add(currentUser);
         }
 
-        // اضافه کردن ردیف‌ها به جدول
         int rank = 1;
         for (User user : top15) {
             boolean isCurrentUser = user.getUsername().equals(currentUser.getUsername());
@@ -120,7 +117,6 @@ public class ScoreboardMenu implements Screen {
             Label killLabel = new Label(String.valueOf(user.getTotalKill()), skin);
             Label bestTimeLabel = new Label(formatTime(user.getBestTimeLive()), skin);
 
-            // جلوه بصری 3 نفر اول
             int userRank = sortedUsers.indexOf(user) + 1;
             if (userRank == 1) {
                 rankLabel.setColor(Color.GOLD);
@@ -142,7 +138,6 @@ public class ScoreboardMenu implements Screen {
                 bestTimeLabel.setColor(Color.BROWN);
             }
 
-            // اگر بازیکن فعلی هست جلوه متمایز بده
             if (isCurrentUser) {
                 rankLabel.setColor(Color.GREEN);
                 usernameLabel.setColor(Color.GREEN);
@@ -189,7 +184,7 @@ public class ScoreboardMenu implements Screen {
 
         for (File dir : userDirs) {
             // TODO: save game with game.json
-            File[] jsonFiles = dir.listFiles((file, name) -> name.endsWith(".json") && !name.equals("game.json"));
+            File[] jsonFiles = dir.listFiles((file, name) -> name.endsWith(".json") && !name.equals("Game.json"));
             if (jsonFiles == null) continue;
 
             for (File jsonFile : jsonFiles) {

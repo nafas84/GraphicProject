@@ -104,7 +104,7 @@ public class MainMenuController {
         Player player = new Player(heroPlayer, weaponPlayer, App.getCurrentUser().getId());
 
         App.setGame(new Game(player, time));
-        GameController.initializeGame();
+        GameController.initializeGame(true);
 
         TillDown.getGame().setScreen(new GameView(new GameController()));
     }
@@ -157,13 +157,15 @@ public class MainMenuController {
         List<SeedData> seedDataList = gameData.getSeedDataList();
         List<Seed> seeds = new ArrayList<>();
 
+        //App.setGame(new Game(player, 2)); TODO:
         for (SeedData data: seedDataList) {
-            seeds.add(new Seed(data.getX(), data.getY()));
+            //seeds.add(new Seed(data.getX(), data.getY()));
         }
 
         Game game = new Game(player, totalTime, remainingTime, monsters, seeds);
 
         App.setGame(game);
+        GameController.initializeGame(false);
         TillDown.getGame().setScreen(new GameView(new GameController()));
     }
 
