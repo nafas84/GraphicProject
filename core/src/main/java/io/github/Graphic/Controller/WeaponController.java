@@ -119,7 +119,6 @@ public class WeaponController {
 
     public void updateBullets() {
         List<Bullet> toRemoveBullets = new ArrayList<>();
-        List<Monster> toRemovedMonsters = new ArrayList<>();
 
         for (Bullet bullet : bullets) {
             // update positions:
@@ -134,9 +133,10 @@ public class WeaponController {
                     monster.updateHp(-App.getGame().getPlayer().getWeapon().getDamage());
                     handleKnockBack(monster, bullet);
                     // kill monster:
-                    if (monster.getHp() <= 0) {
+                    if (monster.getHp() <= 0 && !monster.isDying()) {
                         player.updateKills(1);
-                        toRemovedMonsters.add(monster);
+                        monster.setDying(true);
+                        monster.getDeathSprite().setPosition(monster.getX(), monster.getY());
                         handleSeed(monster);
                     }
                     toRemoveBullets.add(bullet);
@@ -146,7 +146,6 @@ public class WeaponController {
         }
 
         bullets.removeAll(toRemoveBullets);
-        App.getGame().getMonsters().removeAll(toRemovedMonsters);
     }
 
     private void handleSeed(Monster monster) {
@@ -171,7 +170,7 @@ public class WeaponController {
             dy /= length;
         }
 
-        float knockbackStrength = 10f + App.getGame().getPlayer().getWeapon().getDamage();
+        float knockbackStrength = 5f + App.getGame().getPlayer().getWeapon().getDamage();
         float newX = monster.getX() + dx * knockbackStrength;
         float newY = monster.getY() + dy * knockbackStrength;
 

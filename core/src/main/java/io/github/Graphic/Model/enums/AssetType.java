@@ -9,5 +9,4 @@ public enum AssetType {
     BackGround, // fixed (assetEtcPath)
     Seed,
     HoleyShield,
-
 }

@@ -26,18 +26,51 @@ public class MonsterController {
         return monsterController;
     }
 
-    public void update(){
-        // draw:
-        for (Monster monster: App.getGame().getMonsters())
-            monster.getSprite().draw(TillDown.getBatch());
+    public void update() {
+        List<Monster> toRemove = new ArrayList<>();
+
+        for (Monster monster : App.getGame().getMonsters()) {
+            // handle dying/remove monsters
+            if (monster.isDying()) {
+                // handle dying animation:
+                monster.setDeathTime(monster.getDeathTime() + Gdx.graphics.getDeltaTime());
+                Animation<Texture> animation = monster.getDeathAnimation();
+                monster.getDeathSprite().setRegion(animation.getKeyFrame(monster.getDeathTime()));
+
+                monster.getDeathSprite().draw(TillDown.getBatch());
+
+                if (monster.getDeathAnimation().isAnimationFinished(monster.getDeathTime()))
+                    toRemove.add(monster);
+            } else {
+                monster.getSprite().draw(TillDown.getBatch());
+            }
+        }
+
+        App.getGame().getMonsters().removeAll(toRemove);
 
         handleAnimations();
         handleMove();
         handleShoot();
         updateBullets();
         handleDash();
-
         handleSpawn();
+    }
+
+    private void handleAnimations(){
+        for (Monster monster: App.getGame().getMonsters()) {
+            if (monster.isDying()) continue;
+
+            Animation<Texture> animation = monster.getAnimation();
+            monster.getSprite().setRegion(animation.getKeyFrame(monster.getTime()));
+
+            if (!animation.isAnimationFinished(monster.getTime())) {
+                monster.setTime(monster.getTime() + Gdx.graphics.getDeltaTime());
+            } else {
+                monster.setTime(0);
+            }
+
+            animation.setPlayMode(Animation.PlayMode.LOOP);
+        }
     }
 
     private void handleSpawn() {
@@ -143,7 +176,7 @@ public class MonsterController {
 
     private void handleMove() {
         for (Monster monster : App.getGame().getMonsters()) {
-            if (!monster.getType().isCanWalk()) continue;
+            if (!monster.getType().isCanWalk() || monster.isDying()) continue;
             moveMonster(monster, 1);
         }
     }
@@ -189,20 +222,6 @@ public class MonsterController {
                     monster.setLastHandleTime(currentTime);
                 }
             }
-        }
-    }
-
-    private void handleAnimations(){
-        for (Monster monster: App.getGame().getMonsters()) {
-            Animation<Texture> animation = monster.getAnimation();
-            monster.getSprite().setRegion(animation.getKeyFrame(monster.getTime()));
-            if (!animation.isAnimationFinished(monster.getTime())) {
-                monster.setTime(monster.getTime() + Gdx.graphics.getDeltaTime());
-            } else {
-                monster.setTime(0);
-            }
-
-            animation.setPlayMode(Animation.PlayMode.LOOP);
         }
     }
 
